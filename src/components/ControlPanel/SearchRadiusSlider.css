@@ -1,0 +1,32 @@
+.search-radius-container{
+    /* margin-bottom: 30px; */
+    font-family: var(--font-sans);
+    font-size: 14px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    height: 35px;
+    padding-bottom: 20px;
+}
+.search-radius-label {
+    padding-bottom: 20px;
+}
+
+.search-radius-warning {
+    color: var(--color-warning );
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* for Firefox clean base */
+  /* color: var(--color-muted) */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: inner-spin-button !important;
+  opacity: 1 !important;
+}

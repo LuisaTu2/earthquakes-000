@@ -1,0 +1,13 @@
+.info-window {
+  line-height: 1.5em;
+}
+
+.info-window h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+
+.info-window p {
+  margin: 2px 0;
+  font-size: 14px;
+}

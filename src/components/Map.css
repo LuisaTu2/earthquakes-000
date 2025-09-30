@@ -1,0 +1,96 @@
+.earthquakes-map {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+
+    position: relative;
+    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    display: flex;
+    border-radius: 1rem;
+    /* align-items: center; */
+    /* justify-content: center; */
+    background: rgba(255, 255, 255, 0.7); /* semi-transparent overlay */
+    /* z-index: 1000; */
+     /* must be higher than the map */
+    backdrop-filter: blur(12px);
+     opacity: 1;
+    transform: scale(1);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.earthquakes-map[data-hidden="true"] {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+
+.earthquakes-map .overlay-content {
+  /* width: 80%; */
+  /* background: white; */
+  margin: 40% 10% 0% 10%;
+  /* place-items: center; */
+  /* border-radius: 1rem; */
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); */
+  text-align: center;
+  /* font-weight: 600; */
+  color: var(--color-primary)
+}
+
+.overlay-text{
+  font-size: 14px;
+}
+
+.earth-emoji {
+  /* font-size: 2rem; */
+  animation: bounce 1.5s infinite;
+}
+
+/* .arrow {
+  font-size: 5rem;
+  color: var(--color-secondary)
+} */
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.earthquake-marker {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  /* background-color: #2d6a4f;  */
+  background-color: rgba(59, 130, 246, 0.6); 
+  /* opacity: 0.2; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 6px rgba(45, 106, 79, 0.6);
+}
+
+@keyframes pulse {
+  0% { 
+    transform: scale(1); 
+    opacity: 0.2; 
+    box-shadow: 0 0 6px rgba(45, 106, 79, 0.3);
+  }
+  50% { 
+    transform: scale(2rem); 
+    opacity: 0.5; 
+    box-shadow: 0 0 20px rgba(45, 106, 79, 0.6); 
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 0.2; 
+    box-shadow: 0 0 6px rgba(45, 106, 79, 0.3); 
+  }
+}
+
+
