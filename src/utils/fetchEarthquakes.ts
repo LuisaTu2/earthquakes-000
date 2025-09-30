@@ -16,7 +16,7 @@ export const buildUrl = ({epicenter, startDate, endDate, searchRadius}: Pick<Fet
     const startTime = startDate?.toISOString().split('T')[0]
     const endTime = endDate?.toISOString().split('T')[0]
 
-    return HTTP + `&starttime=${startTime}&endtime=${endTime}&latitude=${lat}&longitude=${lng}&maxradiuskm=${searchRadius}&minmagnitude=${MIN_MAGNITUDE}&maxmagnitude=${MAX_MAGNITUDE}&orderby=time` 
+    return HTTP + `&starttime=${startTime}&endtime=${endTime}&latitude=${lat}&longitude=${lng}&maxradiuskm=${searchRadius}&minmagnitude=${MIN_MAGNITUDE}&maxmagnitude=${MAX_MAGNITUDE}` 
 }
 
 export const fetchEarthquakes = async ({epicenter, startDate, endDate, searchRadius, setLoading, setEarthquakes}: FetchProps) => {
