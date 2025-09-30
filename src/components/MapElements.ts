@@ -50,7 +50,7 @@ export const createCenterMarker = ({mapRef, center, setCenterMarker, setCenterMa
     setCenterMarkerInfo(infoWindow)
 }
 
-export const createEarthquakeMarker = ({mapRef, markerInfo}: CreateEarthquakeMarkerProps) : [google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
+export const createEarthquakeMarker = ({activeInfoWindowRef, mapRef, markerInfo}: CreateEarthquakeMarkerProps) : [google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
     const earthquakeMarkerContent = document.createElement("div");
     earthquakeMarkerContent.className = "earthquake-marker";
     const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
@@ -72,16 +72,23 @@ export const createEarthquakeMarker = ({mapRef, markerInfo}: CreateEarthquakeMar
         });
 
     marker.addListener("click", () => {
-        infoWindow.open({
-        anchor: marker, // ties the infoWindow to the marker
-        map: mapRef?.current,
-        });
-    })
+        // ensures only one infoWindow is open
+        if (activeInfoWindowRef.current) {
+          activeInfoWindowRef.current.close();
+        }
 
+        infoWindow.open({
+            anchor: marker, // ties the infoWindow to the marker
+            map: mapRef?.current,
+        });
+        
+        activeInfoWindowRef.current = infoWindow;
+    })
+   
     return [marker, infoWindow]
 }
 
-export const createEarthquakesMarkers = ({earthquakes, mapRef, setEarthquakesInfos, setEarthquakesMarkers}: CreateEarthquakesMarkersProps) => {
+export const createEarthquakesMarkers = ({activeInfoWindowRef, earthquakes, mapRef, setEarthquakesInfos, setEarthquakesMarkers}: CreateEarthquakesMarkersProps) => {
     const markers: google.maps.marker.AdvancedMarkerElement[] = []
     const infos: google.maps.InfoWindow[] = []  
     earthquakes.forEach(earthquake => {
@@ -92,7 +99,7 @@ export const createEarthquakesMarkers = ({earthquakes, mapRef, setEarthquakesInf
             content: earthquake.content,
             date: earthquake.date
         }
-        const [marker, info] = createEarthquakeMarker({mapRef, markerInfo})
+        const [marker, info] = createEarthquakeMarker({activeInfoWindowRef, mapRef,  markerInfo})
         markers.push(marker)
         infos.push(info)
     })

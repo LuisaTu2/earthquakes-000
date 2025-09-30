@@ -43,6 +43,7 @@ const MapControlPanel: React.FC<any> = ({
         setCenterMarkerInfo
     } = useContext(MapContext)
 
+    const activeInfoWindowRef = useRef<google.maps.InfoWindow | null>(null);
     const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
     const onLoad = (autocomplete: google.maps.places.Autocomplete | null) => {
         autoCompleteRef.current = autocomplete;
@@ -106,7 +107,7 @@ const MapControlPanel: React.FC<any> = ({
 
     useEffect(() => {
         if (earthquakes.length && !earthquakesMarkers.length && !earthquakesInfos.length) {
-            createEarthquakesMarkers({earthquakes, mapRef, setEarthquakesInfos, setEarthquakesMarkers})
+            createEarthquakesMarkers({ activeInfoWindowRef, earthquakes, mapRef, setEarthquakesInfos, setEarthquakesMarkers})
         }
         setLoading(false)
     }, [earthquakes, setEarthquakes])
