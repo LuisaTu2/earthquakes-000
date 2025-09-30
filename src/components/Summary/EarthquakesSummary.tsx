@@ -1,4 +1,4 @@
-import { EarthquakesContext } from "../context/SearchSettingsContext";
+import { EarthquakesContext } from "../../context/SearchSettingsContext";
 import "./EarthquakesSummary.css"
 import React, { useContext } from "react";
 

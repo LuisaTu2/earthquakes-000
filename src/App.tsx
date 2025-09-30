@@ -6,9 +6,9 @@ import ControlPanel from './components/ControlPanel/ControlPanel';
 import EarthquakeMap from './components/Map';
 import { LoadScript } from '@react-google-maps/api';
 import CreditBubble from './components/CreditBubble';
-import EarthquakesSummary from './components/EarthquakesSummary';
+import EarthquakesSummary from './components/Summary/EarthquakesSummary';
 import { MapContext } from './context/MapContext';
-import PulsingDotLoader from './components/PulsingDotLoader';
+import PulsingDotLoader from './components/Loaders/PulsingDotLoader';
 
 
 const App = () => {
