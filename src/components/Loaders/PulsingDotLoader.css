@@ -13,7 +13,7 @@
 .pulsing-dot {
   border-radius: 50%;    /* circle */
   /* opacity: 0.75; */
-  background-image: url('../../public/images/globe.png');
+  background-image: url('../../../public/images/globe.png');
   background-size: cover;
   background-position: center;
   /* z-index: 3; */
