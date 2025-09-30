@@ -1,0 +1,79 @@
+h1, h2, h3 {
+  color: var(--color-text);
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: var(--padding-md);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: #fff;
+  padding: var(--padding-md);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  opacity: 0.9;
+}
+
+/* Small button */
+.btn-sm {
+  padding: var(--padding-sm);
+  font-size: 0.85rem;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+input, select {
+  padding: var(--padding-sm);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-muted);
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(201, 124, 93, 0.3);
+}
+
+
+.app {
+  padding-bottom: 50px;
+}
+
+.app-title {
+  padding: var(--padding-lg);
+  color: var(--color-primary)
+}
+
+

@@ -1,0 +1,52 @@
+#root {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* line-height: 1.5; */
+  /* font-weight: 400; */
+}
+
+:root {
+  /* Earthy palette */
+  --color-primary: #3B82F6;      /* Soft Blue */
+  --color-primary-hover: #2563EB;
+  --color-secondary: #14B8A6;    /* Teal */
+  --color-bg: #F3F4F6;           /* Light Gray */
+  --color-text: #1F2937;         /* Deep Navy */
+  --color-muted: #6B7280;        /* Medium Gray */
+  --color-warning: #F87171;
+
+  /* Typography & spacing */
+  --font-sans: 'Inter', sans-serif;
+  --radius: 8px;
+  --padding-sm: 0.5rem 1rem;
+  --padding-md: 0.75rem 1.5rem;
+  --padding-lg: 1.5rem 0rem;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* place-items: center; */
+  min-width: 320px;
+  min-height: 100vh;
+
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: linear-gradient(
+    to bottom,
+    #D0F0FD 0%,   /* top light blue */
+    #70C9B0 50%,  /* mid teal */
+    #357a6b 100%  /* bottom deep green */
+  );
+  margin: 0;
+  padding: 0;
+}
+
+
