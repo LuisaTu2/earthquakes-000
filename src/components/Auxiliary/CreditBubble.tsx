@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WEBSITE_URL } from "../utils/constants";
+import { WEBSITE_URL } from "../../utils/constants";
 
 export default function CreditBubble() {
   const [show, setShow] = useState(false); 

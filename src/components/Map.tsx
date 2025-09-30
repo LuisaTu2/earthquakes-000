@@ -42,10 +42,9 @@ const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
       <div className="earthquakes-map"> 
           {!center && <div className="overlay-content"> 
               <div className="overlay-text">
-                <p>The map is waiting! Type in a location below to start. </p>
+                <p> your map will show here </p>
                 <p className="earth-emoji">🌍</p>
               </div>
-              {/* <div className="arrow">↓</div> */}
             </div>}
           {
             center && <GoogleMap

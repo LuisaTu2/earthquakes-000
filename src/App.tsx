@@ -5,10 +5,11 @@ import { type Coordinates, type EarthQuake, type EarthquakeMarker, type CenterMa
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import EarthquakeMap from './components/Map';
 import { LoadScript } from '@react-google-maps/api';
-import CreditBubble from './components/CreditBubble';
 import EarthquakesSummary from './components/Summary/EarthquakesSummary';
 import { MapContext } from './context/MapContext';
 import PulsingDotLoader from './components/Loaders/PulsingDotLoader';
+import ScrollAfterDelay from './components/Auxiliary/ScrollAfterDelay';
+import CreditBubble from './components/Auxiliary/CreditBubble';
 
 
 const App = () => {
@@ -40,8 +41,17 @@ const App = () => {
         <div className='app'>
           <h2 className="app-title"> quakes </h2>
           <PulsingDotLoader visible={loading} />
-          <LoadScript googleMapsApiKey={mapApiKey!} libraries={['places', 'marker']}>
+          <LoadScript
+              googleMapsApiKey={mapApiKey!} 
+              libraries={['places', 'marker']}
+                loadingElement={
+                  <div className="map-loading">
+                    🌎 loading map...
+                  </div>
+                  }
+              >
                   <EarthquakeMap />
+                  <ScrollAfterDelay />
                   <ControlPanel />
                   <EarthquakesSummary />
 

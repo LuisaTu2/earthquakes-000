@@ -151,7 +151,7 @@ const MapControlPanel: React.FC<any> = ({
     }, [loading])
 
     return (
-        <div className="container">
+        <div id="control-panel" className="container">
             <div className="container-title">settings</div>
             {/* TODO: update to PlacesAutoComplete */}
             <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
