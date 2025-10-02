@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Instructions.css";
 
 export default function Instructions() {
-  const [visible, setVisible] = useState(true);
+  const [visible] = useState(true);
 
 
   useEffect(() => {

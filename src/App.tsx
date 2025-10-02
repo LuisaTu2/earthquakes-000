@@ -7,9 +7,9 @@ import EarthquakeMap from './components/Map';
 import { LoadScript } from '@react-google-maps/api';
 import EarthquakesSummary from './components/Summary/EarthquakesSummary';
 import { MapContext } from './context/MapContext';
-import PulsingDotLoader from './components/Loaders/PulsingDotLoader';
 import ScrollAfterDelay from './components/Auxiliary/ScrollAfterDelay';
 import CreditBubble from './components/Auxiliary/CreditBubble';
+import BouncingMovingEarth from './components/Loaders/BouncingEarthLoader';
 
 
 const App = () => {
@@ -38,9 +38,10 @@ const App = () => {
       <MapContext.Provider value={{mapRef, markerInfo, centerMarker, centerMarkerInfo, earthquakesMarkers, earthquakesInfos, circle,
         setMapRef, setMarkerInfo, setCenterMarker, setCenterMarkerInfo, setEarthquakesMarkers, setEarthquakesInfos, setCircle
       }} >
-        <div className='app'>
+        <div className='app' id="app">
           <h2 className="app-title"> quakes </h2>
-          <PulsingDotLoader visible={loading} />
+          {/* <PulsingDotLoader visible={loading} /> */}
+          <BouncingMovingEarth visible={loading} />
           <LoadScript
               googleMapsApiKey={mapApiKey!} 
               libraries={['places', 'marker']}

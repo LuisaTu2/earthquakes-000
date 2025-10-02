@@ -58,7 +58,7 @@ const MapControlPanel: React.FC<any> = ({
                     lng: place.geometry.location.lng(),
                 };
 
-                setLoading(true)
+                // setLoading(true)
                 clearEarthquakes({earthquakesMarkers, earthquakesInfos, setEarthquakesMarkers, setEarthquakesInfos})
                 clearCircle({circle, setCircle})
                 clearCenterMarker({centerMarker, centerMarkerInfo, setCenterMarker, setCenterMarkerInfo})
@@ -68,7 +68,7 @@ const MapControlPanel: React.FC<any> = ({
     };
 
     const onDateChange = (date: Date | null, type: string) => {
-        setLoading(true)
+        // setLoading(true)
         clearEarthquakes({earthquakesMarkers, earthquakesInfos, setEarthquakesMarkers, setEarthquakesInfos})
         if (type == "start") {
             setStartDate(date)
@@ -117,36 +117,44 @@ const MapControlPanel: React.FC<any> = ({
 
     useEffect(() => {
 
-        function pulseCircle(circle: google.maps.Circle) {
-            let growing = true;
-            let baseRadius = circle.getRadius();
-            let maxIncrease = baseRadius * 0.1; // 10% bigger
-            let step = 50; // ms per frame
-            let delta = 0;
-
-            const interval = setInterval(() => {
-                if (!circle.getMap()) {
-                clearInterval(interval);
-                return;
-                }
-
-                if (growing) {
-                delta += 20;
-                if (delta >= maxIncrease) growing = false;
-                } else {
-                delta -= 20;
-                if (delta <= 0) growing = true;
-                }
-
-                circle.setRadius(baseRadius + delta);
-            }, step);
-
-            return () => clearInterval(interval); // cleanup function
-            }
-        
-        if(circle && loading){
-            pulseCircle(circle)
+        if (loading){
+        // refocus when the map is ready to be viewed
+            const el = document.getElementById("app");
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
+        }
+
+        // function pulseCircle(circle: google.maps.Circle) {
+        //     let growing = true;
+        //     let baseRadius = circle.getRadius();
+        //     let maxIncrease = baseRadius * 0.1; // 10% bigger
+        //     let step = 50; // ms per frame
+        //     let delta = 0;
+
+        //     const interval = setInterval(() => {
+        //         if (!circle.getMap()) {
+        //         clearInterval(interval);
+        //         return;
+        //         }
+
+        //         if (growing) {
+        //         delta += 20;
+        //         if (delta >= maxIncrease) growing = false;
+        //         } else {
+        //         delta -= 20;
+        //         if (delta <= 0) growing = true;
+        //         }
+
+        //         circle.setRadius(baseRadius + delta);
+        //     }, step);
+
+        //     return () => clearInterval(interval); // cleanup function
+        //     }
+        
+        // if(circle && loading){
+        //     pulseCircle(circle)
+        // }
 
     }, [loading])
 

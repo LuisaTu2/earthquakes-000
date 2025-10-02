@@ -39,7 +39,7 @@ const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
     }, [searchRadius])
 
     return  ( 
-      <div className="earthquakes-map"> 
+      <div className="earthquakes-map" id="earthquakes-map"> 
           {!center && <div className="overlay-content"> 
               <div className="overlay-text">
                 <p> your map will show here </p>

@@ -7,7 +7,7 @@ export default function ScrollAfterDelay() {
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 3000);
+    }, 2000);
     return () => clearTimeout(timer); // cleanup if component unmounts
   }, []);
 

@@ -1,0 +1,89 @@
+.bouncing-earth-container {
+  position: absolute;
+  width: 329px;
+  height: 500px;
+  /* background: #d6cdcd; */
+  background: radial-gradient(
+    #f7fafb 0%,   /* top light blue */
+    #D0F0FD 25%,   /* top light blue */
+    #8ebcaf 50%,  /* mid teal */
+    #357a6b 100%  /* bottom deep green */
+  );
+  opacity: 0.8;
+  border: 1px solid #ccc;
+  /* overflow: hidden; */
+  z-index: 1;
+  border-radius: 1rem;
+
+  /* Shadow pulse */
+  box-shadow: 0 0 10px #3b82f6;
+  animation: pulseShadow 1.3s infinite alternate;
+}
+
+@keyframes pulseShadow {
+  0% {
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  50% {
+    box-shadow: 0 0 25px #3b82f6;
+  }
+  100% {
+    box-shadow: 0 0 10px #3b82f6;
+  }
+}
+
+
+.bouncing-earth {
+  position: absolute;
+  top: 300px;
+  /* bottom: 0; */
+  /* left: 0; */
+  font-size: 3rem;
+   z-index: 2;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-50px); /* how high it bounces */
+  }
+  70% {
+    transform: translateX(-50%) translateY(0px); /* how high it bounces */
+  }
+  80% {
+    transform: translateX(-50%) translateY(-30px); /* how high it bounces */
+  }
+    90% {
+    transform: translateX(-50%) translateY(0px); /* how high it bounces */
+  }
+      95% {
+    transform: translateX(-50%) translateY(-10px); /* how high it bounces */
+  }
+
+
+}
+
+@keyframes bounceMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  12.5% {
+    transform: translate(25px, -10px); /* right + bounce up */
+  }
+  25% {
+    transform: translate(50px, -20px); /* right + bounce up */
+  }
+  50% {
+    transform: translate(100px, 0);   /* right + back down */
+  }
+  75% {
+    transform: translate(150px, -20px); /* right + bounce up */
+  }
+  100% {
+    transform: translate(200px, 0);   /* right + back down */
+  }
+}

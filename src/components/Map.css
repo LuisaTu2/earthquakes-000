@@ -48,7 +48,7 @@
 
 .earth-emoji {
   /* font-size: 2rem; */
-  animation: bounce 1.5s infinite;
+  animation: earthEmojiBounce 1.5s infinite;
 }
 
 /* .arrow {
@@ -56,7 +56,7 @@
   color: var(--color-secondary)
 } */
 
-@keyframes bounce {
+@keyframes earthEmojiBounce {
   0%, 100% {
     transform: translateY(0);
   }
