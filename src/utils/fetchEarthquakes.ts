@@ -1,4 +1,4 @@
-import { buildEarthquakes } from "../components/MapElements";
+import { buildEarthquakes } from "../components/MapControls";
 import type { Coordinates, EarthQuake } from "../types/global.t";
 import { HTTP, MIN_MAGNITUDE, MAX_MAGNITUDE } from "./constants";
 

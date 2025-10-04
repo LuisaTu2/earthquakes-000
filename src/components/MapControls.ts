@@ -1,6 +1,6 @@
 import type { BuildEarthquakesProps, BuildMarkerInfoProps,
      ClearCenterMarkerProps, ClearCircleProps, CreateCenterMarkerProps, CreateCircleProps, 
-     EarthQuake } from "../types/global.t"
+     EarthQuake, } from "../types/global.t"
 import { CIRCLE_OPTIONS } from "../utils/constants"
 
 
@@ -132,70 +132,3 @@ export const clearCircle = ({circle, setCircle}: ClearCircleProps) => {
         setCircle(null)
     }
 }
-
-
-// export const timeLapse = ({ earthquakes, startDate, endDate,  mapRef }: TimeLapseProps) => {
-//     // years lapse
-//     const startYear = startDate?.getFullYear();
-//     const endYear = endDate?.getFullYear();
-
-//     let visibleMarkers: google.maps.marker.AdvancedMarkerElement[] = [];
-
-//     if(endYear && startYear && (endYear - startYear)){
-//         let time = 0;
-//         for(let year=startYear; year < endYear+1; year++){
-//             const earthquakesInYear: EarthQuake[] = earthquakes.filter(e => {
-//                 const earthquakeDate: Date = new Date(e.date)
-//                 return earthquakeDate.getFullYear() === year
-//             })
-
-//             setTimeout(() => {
-//                 for (let i = 0; i < visibleMarkers.length; i++){
-//                     visibleMarkers.forEach(m => m.map = null)
-//                 }
-//                 visibleMarkers = []
-
-//                 earthquakesInYear.forEach(e => {
-//                     e.marker.map = mapRef?.current
-//                     // anything with infowindow? 
-
-//                     // const marker = createNewMarker(e, mapRef)
-//                     // visibleMarkers.push(marker)
-//                 })
-
-//                 if (year === endYear + 1){
-//                     setTimeout(() => {
-//                         // clear previous
-//                         for (let i = 0; i < visibleMarkers.length; i++){
-//                             visibleMarkers.forEach(m => m.map = null)
-//                         }
-//                     }, (time + 1) * 4000)
-//                 }      
-//             }, time * 4000)
-//             time++
-//         }
-//     }
-
-
-//     for (let i = 0; i < visibleMarkers.length; i++){
-//         visibleMarkers.forEach(m => m.map = null)
-//     }
-//     // same year, make a month lapse
-
-
-//     // same month, make a week lapse
-
-//     // same week, make a day lapse
-// }
-
-// const createNewMarker = (earthquake: EarthQuake, mapRef:  React.RefObject<google.maps.Map | null> | null ): google.maps.marker.AdvancedMarkerElement  => {
-//     const earthquakeMarkerContent = document.createElement("div");
-//     earthquakeMarkerContent.className = "earthquake-marker";
-//     const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
-//         map: mapRef?.current,
-//         position: earthquake.coordinates,
-//         title: earthquake.title,
-//         content: earthquakeMarkerContent 
-//     });
-//     return marker
-// }

@@ -7,7 +7,7 @@ import SearchRadiusSlider from "./SearchRadiusSlider";
 import { EARLIEST_SEARCH_DATE, LATEST_SEARCH_DATE } from "../../utils/constants";
 import { fetchEarthquakes } from "../../utils/fetchEarthquakes";
 import { MapContext } from "../../context/MapContext";
-import { clearCenterMarker, clearCircle, clearEarthquakes, createCenterMarker, createCircle } from "../MapElements";
+import { clearCenterMarker, clearCircle, clearEarthquakes, createCenterMarker, createCircle } from "../MapControls";
 
 
 
@@ -33,11 +33,9 @@ const MapControlPanel: React.FC<any> = ({
         centerMarker, 
         circle, 
         centerMarkerInfo,
-        // isAnimating,
         setCircle, 
         setCenterMarker, 
         setCenterMarkerInfo, 
-        // setIsAnimating
     } = useContext(MapContext)
 
     const activeInfoWindowRef = useRef<google.maps.InfoWindow | null>(null);
@@ -98,24 +96,6 @@ const MapControlPanel: React.FC<any> = ({
 
         fetchEarthquakes({mapRef, activeInfoWindowRef, epicenter: center, startDate, endDate, searchRadius, setLoading, setEarthquakes})
     }, [center, startDate, endDate, searchRadius])
-
-
-    // useEffect(() => {
-    //     if (isAnimating && earthquakes.length) {
-    //         // setLoading(true)
-    //         //first clear all markers
-    //         clearEarthquakes(earthquakes)
-
-    //         // it takes a while to clear all the state of yearly markers so I create them manually
-    //         timeLapse({ earthquakes, startDate, endDate, mapRef })
-            
-    //         setIsAnimating(false)
-    //         // CAREFUL HERE! 
-    //         // show all again at the end
-    //         return
-    //     }
-    // }, [isAnimating])
-
 
     useEffect(() => {
         if (loading){
