@@ -70,14 +70,15 @@
   height: 15px;
   border-radius: 50%;
   /* background-color: #2d6a4f;  */
-  background-color: rgba(59, 130, 246, 0.6); 
+  /* background-color: rgba(59, 130, 246, 0.6);  */
+  background-color: rgba(227, 25, 183, 0.6); 
   /* opacity: 0.2; */
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   animation: pulse 1.5s infinite;
-  box-shadow: 0 0 6px rgba(45, 106, 79, 0.6);
+  /* box-shadow: 0 0 6px rgba(45, 106, 79, 0.6); */
 }
 
 @keyframes pulse {

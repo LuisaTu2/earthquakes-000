@@ -1,7 +1,7 @@
 import './App.css'
 import { EarthquakesContext } from './context/SearchSettingsContext';
 import { useState } from 'react';
-import { type Coordinates, type EarthQuake, type EarthquakeMarker, type CenterMarker } from './types/global.t';
+import { type Coordinates, type EarthQuake } from './types/global.t';
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import EarthquakeMap from './components/Map';
 import { LoadScript } from '@react-google-maps/api';
@@ -10,6 +10,7 @@ import { MapContext } from './context/MapContext';
 import ScrollAfterDelay from './components/Auxiliary/ScrollAfterDelay';
 import CreditBubble from './components/Auxiliary/CreditBubble';
 import BouncingMovingEarth from './components/Loaders/BouncingEarthLoader';
+import AnimationControl from './components/AnimationControl/AnimationControl';
 
 
 const App = () => {
@@ -25,22 +26,20 @@ const App = () => {
 
   // initialize map state
   const [mapRef, setMapRef] = useState<React.RefObject<google.maps.Map | null> | null>(null)
-  const [markerInfo, setMarkerInfo] = useState<CenterMarker | EarthquakeMarker | null>(null)
   const [centerMarker, setCenterMarker] = useState<google.maps.marker.AdvancedMarkerElement | undefined | null>()
   const [centerMarkerInfo, setCenterMarkerInfo] = useState<google.maps.InfoWindow | undefined | null>()
-  const [earthquakesMarkers, setEarthquakesMarkers] = useState<google.maps.marker.AdvancedMarkerElement[]>([])
-  const [earthquakesInfos, setEarthquakesInfos] = useState<google.maps.InfoWindow[]>([])
   const [circle, setCircle] = useState<google.maps.Circle | null>()
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+
 
   return (
     <EarthquakesContext.Provider value={{epicenter, startDate, endDate, loading, earthquakes, searchRadius,
             setEpicenter, setStartDate, setEndDate, setLoading, setEarthquakes, setSearchRadius}}>
-      <MapContext.Provider value={{mapRef, markerInfo, centerMarker, centerMarkerInfo, earthquakesMarkers, earthquakesInfos, circle,
-        setMapRef, setMarkerInfo, setCenterMarker, setCenterMarkerInfo, setEarthquakesMarkers, setEarthquakesInfos, setCircle
+      <MapContext.Provider value={{mapRef, centerMarker, centerMarkerInfo, circle,isAnimating,
+        setMapRef, setCenterMarker, setCenterMarkerInfo, setCircle, setIsAnimating
       }} >
         <div className='app' id="app">
           <h2 className="app-title"> quakes </h2>
-          {/* <PulsingDotLoader visible={loading} /> */}
           <BouncingMovingEarth visible={loading} />
           <LoadScript
               googleMapsApiKey={mapApiKey!} 
@@ -49,13 +48,12 @@ const App = () => {
                   <div className="map-loading">
                     🌎 loading map...
                   </div>
-                  }
-              >
+                  }>
                   <EarthquakeMap />
+                  <AnimationControl />
                   <ScrollAfterDelay />
                   <ControlPanel />
                   <EarthquakesSummary />
-
               <CreditBubble />
           </LoadScript>
         </div>

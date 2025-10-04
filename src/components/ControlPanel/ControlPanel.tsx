@@ -7,7 +7,7 @@ import SearchRadiusSlider from "./SearchRadiusSlider";
 import { EARLIEST_SEARCH_DATE, LATEST_SEARCH_DATE } from "../../utils/constants";
 import { fetchEarthquakes } from "../../utils/fetchEarthquakes";
 import { MapContext } from "../../context/MapContext";
-import { clearCenterMarker, clearCircle, clearEarthquakes, createCenterMarker, createCircle, createEarthquakesMarkers } from "../MapElements";
+import { clearCenterMarker, clearCircle, clearEarthquakes, createCenterMarker, createCircle } from "../MapElements";
 
 
 
@@ -30,17 +30,14 @@ const MapControlPanel: React.FC<any> = ({
     } = useContext(EarthquakesContext)
     const { 
         mapRef, 
-        // markerInfo, 
         centerMarker, 
         circle, 
         centerMarkerInfo,
-        earthquakesMarkers, 
-        earthquakesInfos,
+        // isAnimating,
         setCircle, 
-        setEarthquakesMarkers, 
-        setEarthquakesInfos, 
         setCenterMarker, 
-        setCenterMarkerInfo
+        setCenterMarkerInfo, 
+        // setIsAnimating
     } = useContext(MapContext)
 
     const activeInfoWindowRef = useRef<google.maps.InfoWindow | null>(null);
@@ -58,8 +55,7 @@ const MapControlPanel: React.FC<any> = ({
                     lng: place.geometry.location.lng(),
                 };
 
-                // setLoading(true)
-                clearEarthquakes({earthquakesMarkers, earthquakesInfos, setEarthquakesMarkers, setEarthquakesInfos})
+                clearEarthquakes(earthquakes)
                 clearCircle({circle, setCircle})
                 clearCenterMarker({centerMarker, centerMarkerInfo, setCenterMarker, setCenterMarkerInfo})
                 setEpicenter(coords)
@@ -68,8 +64,7 @@ const MapControlPanel: React.FC<any> = ({
     };
 
     const onDateChange = (date: Date | null, type: string) => {
-        // setLoading(true)
-        clearEarthquakes({earthquakesMarkers, earthquakesInfos, setEarthquakesMarkers, setEarthquakesInfos})
+        clearEarthquakes(earthquakes)
         if (type == "start") {
             setStartDate(date)
         } else {
@@ -78,7 +73,7 @@ const MapControlPanel: React.FC<any> = ({
     }
 
     const onRadiusChange = (value: number | number[]) => {
-        clearEarthquakes({earthquakesMarkers, earthquakesInfos, setEarthquakesMarkers, setEarthquakesInfos})
+        clearEarthquakes(earthquakes)
         clearCircle({circle, setCircle})
         setSearchRadius(value as number)
     }
@@ -101,22 +96,28 @@ const MapControlPanel: React.FC<any> = ({
 
         if (center === null || startDate === null || endDate === null) {setLoading(false); return}
 
-        fetchEarthquakes({epicenter: center, startDate, endDate, searchRadius, setLoading, setEarthquakes})
+        fetchEarthquakes({mapRef, activeInfoWindowRef, epicenter: center, startDate, endDate, searchRadius, setLoading, setEarthquakes})
     }, [center, startDate, endDate, searchRadius])
 
 
+    // useEffect(() => {
+    //     if (isAnimating && earthquakes.length) {
+    //         // setLoading(true)
+    //         //first clear all markers
+    //         clearEarthquakes(earthquakes)
+
+    //         // it takes a while to clear all the state of yearly markers so I create them manually
+    //         timeLapse({ earthquakes, startDate, endDate, mapRef })
+            
+    //         setIsAnimating(false)
+    //         // CAREFUL HERE! 
+    //         // show all again at the end
+    //         return
+    //     }
+    // }, [isAnimating])
+
+
     useEffect(() => {
-        if (earthquakes.length && !earthquakesMarkers.length && !earthquakesInfos.length) {
-            createEarthquakesMarkers({ activeInfoWindowRef, earthquakes, mapRef, setEarthquakesInfos, setEarthquakesMarkers})
-        }
-        setLoading(false)
-    }, [earthquakes, setEarthquakes])
-
-
-
-
-    useEffect(() => {
-
         if (loading){
         // refocus when the map is ready to be viewed
             const el = document.getElementById("app");
@@ -124,38 +125,6 @@ const MapControlPanel: React.FC<any> = ({
                 el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
         }
-
-        // function pulseCircle(circle: google.maps.Circle) {
-        //     let growing = true;
-        //     let baseRadius = circle.getRadius();
-        //     let maxIncrease = baseRadius * 0.1; // 10% bigger
-        //     let step = 50; // ms per frame
-        //     let delta = 0;
-
-        //     const interval = setInterval(() => {
-        //         if (!circle.getMap()) {
-        //         clearInterval(interval);
-        //         return;
-        //         }
-
-        //         if (growing) {
-        //         delta += 20;
-        //         if (delta >= maxIncrease) growing = false;
-        //         } else {
-        //         delta -= 20;
-        //         if (delta <= 0) growing = true;
-        //         }
-
-        //         circle.setRadius(baseRadius + delta);
-        //     }, step);
-
-        //     return () => clearInterval(interval); // cleanup function
-        //     }
-        
-        // if(circle && loading){
-        //     pulseCircle(circle)
-        // }
-
     }, [loading])
 
     return (

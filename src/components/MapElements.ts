@@ -1,28 +1,8 @@
-import type { ClearCenterMarkerProps, ClearCircleProps, ClearEarthquakesMarkersProps, CreateCenterMarkerProps, CreateCircleProps, CreateEarthquakeMarkerProps, CreateEarthquakesMarkersProps, EarthquakeMarker } from "../types/global.t"
+import type { BuildEarthquakesProps, BuildMarkerInfoProps,
+     ClearCenterMarkerProps, ClearCircleProps, CreateCenterMarkerProps, CreateCircleProps, 
+     EarthQuake } from "../types/global.t"
 import { CIRCLE_OPTIONS } from "../utils/constants"
 
-
-export const clearCenterMarker = ({centerMarker, centerMarkerInfo, setCenterMarker, setCenterMarkerInfo}: ClearCenterMarkerProps) => {
-  if(centerMarker) {
-    centerMarker.map = null
-    setCenterMarker(null)
-  }
-  centerMarkerInfo?.close()
-  setCenterMarkerInfo(null)
-}
-
-export const clearEarthquakes = ({earthquakesMarkers, earthquakesInfos, setEarthquakesMarkers, setEarthquakesInfos}: ClearEarthquakesMarkersProps) => {
-    earthquakesMarkers.forEach(marker => {
-        marker.map = null
-    })
-    setEarthquakesMarkers([])
-    
-    earthquakesInfos.forEach(info => {
-        info.close()
-    })
-    setEarthquakesInfos([])
-    return;
-}
 
 export const createCenterMarker = ({mapRef, center, setCenterMarker, setCenterMarkerInfo}: CreateCenterMarkerProps) => {
     const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
@@ -34,7 +14,7 @@ export const createCenterMarker = ({mapRef, center, setCenterMarker, setCenterMa
     // TODO: fix with center name
     const  infoWindow = new google.maps.InfoWindow({
         content: `<div class="info-window">
-                    <h3>${"SEARCH CENTER"}</h3>
+                    <h3>SEARCH CENTER</h3>
                     <p> center center  </p>
                 </div>`,
     });
@@ -45,36 +25,54 @@ export const createCenterMarker = ({mapRef, center, setCenterMarker, setCenterMa
         map: mapRef?.current,
         });
     })
-
     setCenterMarker(marker)
     setCenterMarkerInfo(infoWindow)
 }
 
-export const createEarthquakeMarker = ({activeInfoWindowRef, mapRef, markerInfo}: CreateEarthquakeMarkerProps) : [google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
+export const clearCenterMarker = ({centerMarker, centerMarkerInfo, setCenterMarker, setCenterMarkerInfo}: ClearCenterMarkerProps) => {
+  if(centerMarker) {
+    centerMarker.map = null
+    setCenterMarker(null)
+  }
+  centerMarkerInfo?.close()
+  setCenterMarkerInfo(null)
+}
+
+
+export const clearEarthquakes = (earthquakes: EarthQuake[]) => {
+    earthquakes.forEach(earthquake => {
+        if (earthquake.marker) {
+            earthquake.marker.map = null
+        }
+        earthquake.infoWindow.close()
+    })
+    return;
+}
+
+
+export const buildMarkerInfo = ({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef}: BuildMarkerInfoProps) : 
+[google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
     const earthquakeMarkerContent = document.createElement("div");
     earthquakeMarkerContent.className = "earthquake-marker";
-    const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
-        map: mapRef?.current,
-        position: markerInfo?.coordinates,
-        title: markerInfo?.title,
-        content: earthquakeMarkerContent 
-    });
-
-    const mag = markerInfo && "magnitude" in markerInfo ? markerInfo.magnitude  : ""
-    const date = markerInfo && "date" in markerInfo ? markerInfo.date  : ""
+    const marker = new google.maps.marker.AdvancedMarkerElement({
+            map: mapRef?.current,
+            position: coordinates,
+            title,
+            content: earthquakeMarkerContent 
+        })
 
     const infoWindow = new google.maps.InfoWindow({
-            content: `<div class="info-window">
-                        <h3>${markerInfo?.title}</h3>
-                        <p>Magnitude: ${mag}</p>
-                        <p>Date: ${date}</p>
-                    </div>`,
-        });
+        content: `<div class="info-window">
+                    <h3>${title}</h3>
+                    <p>Magnitude: ${magnitude}</p>
+                    <p>Date: ${date}</p>
+                </div>`,
+    });
 
     marker.addListener("click", () => {
         // ensures only one infoWindow is open
         if (activeInfoWindowRef.current) {
-          activeInfoWindowRef.current.close();
+            activeInfoWindowRef.current.close();
         }
 
         infoWindow.open({
@@ -84,28 +82,43 @@ export const createEarthquakeMarker = ({activeInfoWindowRef, mapRef, markerInfo}
         
         activeInfoWindowRef.current = infoWindow;
     })
-   
+
     return [marker, infoWindow]
 }
 
-export const createEarthquakesMarkers = ({activeInfoWindowRef, earthquakes, mapRef, setEarthquakesInfos, setEarthquakesMarkers}: CreateEarthquakesMarkersProps) => {
-    const markers: google.maps.marker.AdvancedMarkerElement[] = []
-    const infos: google.maps.InfoWindow[] = []  
-    earthquakes.forEach(earthquake => {
-        const markerInfo: EarthquakeMarker  = {
-            title: earthquake.title,
-            magnitude: earthquake.magnitude,
-            coordinates: earthquake.coordinates,
-            content: earthquake.content,
-            date: earthquake.date
-        }
-        const [marker, info] = createEarthquakeMarker({activeInfoWindowRef, mapRef,  markerInfo})
-        markers.push(marker)
-        infos.push(info)
-    })
 
-    setEarthquakesMarkers(markers)
-    setEarthquakesInfos(infos)
+export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarthquakesProps ) => {
+    const features = data["features"]
+    const earthquakes: EarthQuake[] = features.map((feature: any) => { 
+
+        const magnitude = feature["geometry"]["mag"]
+        const coordsObj = feature["geometry"]["coordinates"]
+        const coordinates = { lat: coordsObj[1], lng: coordsObj[0] }
+        const title = feature["properties"]["title"];
+        const time = feature["properties"]["time"]
+        const dateTime = new Date(time)
+        const date = dateTime.toLocaleDateString("en-US", {
+            month: "long",  
+            day: "2-digit", 
+            year: "numeric"
+        });
+
+        const [marker, infoWindow] = buildMarkerInfo({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef})
+
+        const earthquake: EarthQuake = {
+            magnitude: feature["properties"]["mag"],
+            title,
+            coordinates,
+            content: "",
+            date,
+            marker,
+            infoWindow
+        }
+        return earthquake
+    })
+    
+    return earthquakes
+
 }
 
 export  const createCircle = ({mapRef, center, searchRadius, setCircle} : CreateCircleProps) => {
@@ -119,3 +132,70 @@ export const clearCircle = ({circle, setCircle}: ClearCircleProps) => {
         setCircle(null)
     }
 }
+
+
+// export const timeLapse = ({ earthquakes, startDate, endDate,  mapRef }: TimeLapseProps) => {
+//     // years lapse
+//     const startYear = startDate?.getFullYear();
+//     const endYear = endDate?.getFullYear();
+
+//     let visibleMarkers: google.maps.marker.AdvancedMarkerElement[] = [];
+
+//     if(endYear && startYear && (endYear - startYear)){
+//         let time = 0;
+//         for(let year=startYear; year < endYear+1; year++){
+//             const earthquakesInYear: EarthQuake[] = earthquakes.filter(e => {
+//                 const earthquakeDate: Date = new Date(e.date)
+//                 return earthquakeDate.getFullYear() === year
+//             })
+
+//             setTimeout(() => {
+//                 for (let i = 0; i < visibleMarkers.length; i++){
+//                     visibleMarkers.forEach(m => m.map = null)
+//                 }
+//                 visibleMarkers = []
+
+//                 earthquakesInYear.forEach(e => {
+//                     e.marker.map = mapRef?.current
+//                     // anything with infowindow? 
+
+//                     // const marker = createNewMarker(e, mapRef)
+//                     // visibleMarkers.push(marker)
+//                 })
+
+//                 if (year === endYear + 1){
+//                     setTimeout(() => {
+//                         // clear previous
+//                         for (let i = 0; i < visibleMarkers.length; i++){
+//                             visibleMarkers.forEach(m => m.map = null)
+//                         }
+//                     }, (time + 1) * 4000)
+//                 }      
+//             }, time * 4000)
+//             time++
+//         }
+//     }
+
+
+//     for (let i = 0; i < visibleMarkers.length; i++){
+//         visibleMarkers.forEach(m => m.map = null)
+//     }
+//     // same year, make a month lapse
+
+
+//     // same month, make a week lapse
+
+//     // same week, make a day lapse
+// }
+
+// const createNewMarker = (earthquake: EarthQuake, mapRef:  React.RefObject<google.maps.Map | null> | null ): google.maps.marker.AdvancedMarkerElement  => {
+//     const earthquakeMarkerContent = document.createElement("div");
+//     earthquakeMarkerContent.className = "earthquake-marker";
+//     const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
+//         map: mapRef?.current,
+//         position: earthquake.coordinates,
+//         title: earthquake.title,
+//         content: earthquakeMarkerContent 
+//     });
+//     return marker
+// }

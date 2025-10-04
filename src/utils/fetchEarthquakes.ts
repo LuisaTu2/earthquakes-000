@@ -1,3 +1,4 @@
+import { buildEarthquakes } from "../components/MapElements";
 import type { Coordinates, EarthQuake } from "../types/global.t";
 import { HTTP, MIN_MAGNITUDE, MAX_MAGNITUDE } from "./constants";
 
@@ -7,6 +8,8 @@ interface FetchProps {
     startDate: Date | null
     endDate: Date | null
     searchRadius: number
+    mapRef:  React.RefObject<google.maps.Map | null> | null, 
+    activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
     setEarthquakes:  React.Dispatch<React.SetStateAction<EarthQuake[]>>
 }
@@ -19,42 +22,24 @@ export const buildUrl = ({epicenter, startDate, endDate, searchRadius}: Pick<Fet
     return HTTP + `&starttime=${startTime}&endtime=${endTime}&latitude=${lat}&longitude=${lng}&maxradiuskm=${searchRadius}&minmagnitude=${MIN_MAGNITUDE}&maxmagnitude=${MAX_MAGNITUDE}` 
 }
 
-export const fetchEarthquakes = async ({epicenter, startDate, endDate, searchRadius, setLoading, setEarthquakes}: FetchProps) => {
-    const url = buildUrl({epicenter, startDate, endDate, searchRadius})
+export const fetchEarthquakes = async ({mapRef, activeInfoWindowRef, epicenter, startDate, endDate, searchRadius, 
+    setLoading, setEarthquakes}: FetchProps) => {
     let earthquakes: EarthQuake[] = [];
-    setLoading(true)
-    console.log("fetching earthquake data")
     try {
+        setLoading(true)
+        const url = buildUrl({epicenter, startDate, endDate, searchRadius})
+        console.log("fetching earthquake data")
         const res = await fetch(url);
-        const jsonData = await res.json();
-        earthquakes = format(jsonData)
-        // setEarthquakes(prev => [...prev, ...earthquakes])
+        const data = await res.json();
+        earthquakes = buildEarthquakes({data, mapRef, activeInfoWindowRef})
         setEarthquakes(earthquakes)
     } catch (err: any) {
         // TODO: handle error
         console.log("error: ", err)
     } finally {
         console.log("finished retrieve earthquake data")
+        setLoading(false)
     }
     return earthquakes;
 };
 
-
-const format = (json: any) => {
-    const features = json["features"]
-    const earthquakes: EarthQuake[] = features.map((feature: any) => { 
-        const jcoords = feature["geometry"]["coordinates"]
-        const coords: Coordinates = {lat: jcoords[1], lng: jcoords[0] }
-        const title = feature["properties"]["title"]
-        const magnitude = feature["properties"]["mag"]
-        const time = feature["properties"]["time"]
-        const dateTime = new Date(time)
-        const date = dateTime.toLocaleDateString("en-US", {
-            month: "long",  // "September"
-            day: "2-digit", // "30"
-            year: "numeric" // "2025"
-        });
-        return {"coordinates": coords, title, magnitude, date }})
-    return earthquakes
-
-}
