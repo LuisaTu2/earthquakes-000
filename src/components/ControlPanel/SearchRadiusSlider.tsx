@@ -4,6 +4,7 @@ import "rc-tooltip/assets/bootstrap.css";
 import "./SearchRadiusSlider.css"
 import { EarthquakesContext } from "../../context/SearchSettingsContext";
 import { MAX_RADIUS } from "../../utils/constants";
+import { MapContext } from "../../context/MapContext";
 
 interface SearchRadiusSliderProps {
      onRadiusChange: (value: number | number[]) => void
@@ -11,6 +12,7 @@ interface SearchRadiusSliderProps {
 
 export const SearchRadiusSlider = ({ onRadiusChange }: SearchRadiusSliderProps) => {
     const { loading } = useContext(EarthquakesContext)
+    const { isAnimating } = useContext(MapContext)
     const [radius, setRadius] = useState<number | string>(500);
 
     // debounce effect
@@ -48,7 +50,7 @@ export const SearchRadiusSlider = ({ onRadiusChange }: SearchRadiusSliderProps) 
                   setRadius(r)
               }}
               className="search-radius-input"
-              disabled={loading}
+              disabled={loading || isAnimating}
               onBlur={() => {
                 if (radius.toString() === "") setRadius(0);
               }}

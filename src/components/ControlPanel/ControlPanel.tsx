@@ -7,7 +7,7 @@ import SearchRadiusSlider from "./SearchRadiusSlider";
 import { EARLIEST_SEARCH_DATE, LATEST_SEARCH_DATE } from "../../utils/constants";
 import { fetchEarthquakes } from "../../utils/fetchEarthquakes";
 import { MapContext } from "../../context/MapContext";
-import { clearCenterMarker, clearCircle, clearEarthquakes, createCenterMarker, createCircle } from "../MapControls";
+import { clearCenterMarker, clearCircle, clearEarthquakeMarkers, createCenterMarker, createCircle } from "../MapControls";
 
 
 
@@ -36,6 +36,7 @@ const MapControlPanel: React.FC<any> = ({
         setCircle, 
         setCenterMarker, 
         setCenterMarkerInfo, 
+        setIsAnimating,
     } = useContext(MapContext)
 
     const activeInfoWindowRef = useRef<google.maps.InfoWindow | null>(null);
@@ -53,7 +54,7 @@ const MapControlPanel: React.FC<any> = ({
                     lng: place.geometry.location.lng(),
                 };
 
-                clearEarthquakes(earthquakes)
+                clearEarthquakeMarkers(earthquakes)
                 clearCircle({circle, setCircle})
                 clearCenterMarker({centerMarker, centerMarkerInfo, setCenterMarker, setCenterMarkerInfo})
                 setEpicenter(coords)
@@ -62,7 +63,7 @@ const MapControlPanel: React.FC<any> = ({
     };
 
     const onDateChange = (date: Date | null, type: string) => {
-        clearEarthquakes(earthquakes)
+        clearEarthquakeMarkers(earthquakes)
         if (type == "start") {
             setStartDate(date)
         } else {
@@ -71,7 +72,7 @@ const MapControlPanel: React.FC<any> = ({
     }
 
     const onRadiusChange = (value: number | number[]) => {
-        clearEarthquakes(earthquakes)
+        clearEarthquakeMarkers(earthquakes)
         clearCircle({circle, setCircle})
         setSearchRadius(value as number)
     }
@@ -93,7 +94,7 @@ const MapControlPanel: React.FC<any> = ({
         }
 
         if (center === null || startDate === null || endDate === null) {setLoading(false); return}
-
+        setIsAnimating(false)
         fetchEarthquakes({mapRef, activeInfoWindowRef, epicenter: center, startDate, endDate, searchRadius, setLoading, setEarthquakes})
     }, [center, startDate, endDate, searchRadius])
 

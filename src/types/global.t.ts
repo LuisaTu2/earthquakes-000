@@ -93,3 +93,6 @@ export interface BuildMarkerInfoProps {
   mapRef:  React.RefObject<google.maps.Map | null> | null, 
   activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
 } 
+
+
+export type TimeUnit = "year" | "month" | "day" | ""

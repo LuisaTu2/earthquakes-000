@@ -4,6 +4,19 @@ import type { BuildEarthquakesProps, BuildMarkerInfoProps,
 import { CIRCLE_OPTIONS } from "../utils/constants"
 
 
+
+export  const createCircle = ({mapRef, center, searchRadius, setCircle} : CreateCircleProps) => {
+    const newCircle = new google.maps.Circle({ ...CIRCLE_OPTIONS, radius: searchRadius * 1000, center, map: mapRef?.current})
+    setCircle(newCircle)
+}
+
+export const clearCircle = ({circle, setCircle}: ClearCircleProps) => {
+    if(circle) {
+        circle.setMap(null)
+        setCircle(null)
+    }
+}
+
 export const createCenterMarker = ({mapRef, center, setCenterMarker, setCenterMarkerInfo}: CreateCenterMarkerProps) => {
     const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
         map: mapRef?.current,
@@ -38,8 +51,7 @@ export const clearCenterMarker = ({centerMarker, centerMarkerInfo, setCenterMark
   setCenterMarkerInfo(null)
 }
 
-
-export const clearEarthquakes = (earthquakes: EarthQuake[]) => {
+export const clearEarthquakeMarkers = (earthquakes: EarthQuake[]) => {
     earthquakes.forEach(earthquake => {
         if (earthquake.marker) {
             earthquake.marker.map = null
@@ -49,9 +61,7 @@ export const clearEarthquakes = (earthquakes: EarthQuake[]) => {
     return;
 }
 
-
-export const buildMarkerInfo = ({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef}: BuildMarkerInfoProps) : 
-[google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
+export const buildMarkerAndInfo = ({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef}: BuildMarkerInfoProps) : [google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
     const earthquakeMarkerContent = document.createElement("div");
     earthquakeMarkerContent.className = "earthquake-marker";
     const marker = new google.maps.marker.AdvancedMarkerElement({
@@ -86,7 +96,6 @@ export const buildMarkerInfo = ({coordinates, title, date, magnitude, mapRef, ac
     return [marker, infoWindow]
 }
 
-
 export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarthquakesProps ) => {
     const features = data["features"]
     const earthquakes: EarthQuake[] = features.map((feature: any) => { 
@@ -103,7 +112,7 @@ export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarth
             year: "numeric"
         });
 
-        const [marker, infoWindow] = buildMarkerInfo({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef})
+        const [marker, infoWindow] = buildMarkerAndInfo({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef})
 
         const earthquake: EarthQuake = {
             magnitude: feature["properties"]["mag"],
@@ -121,14 +130,16 @@ export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarth
 
 }
 
-export  const createCircle = ({mapRef, center, searchRadius, setCircle} : CreateCircleProps) => {
-    const newCircle = new google.maps.Circle({ ...CIRCLE_OPTIONS, radius: searchRadius * 1000, center, map: mapRef?.current})
-    setCircle(newCircle)
+export const showMarkers = (earthquakes: EarthQuake[], mapRef:  React.RefObject<google.maps.Map | null> | null ) => {
+    earthquakes.forEach(e => {
+        e.marker.map = mapRef?.current
+        // anything with infowindow? 
+    })
 }
 
-export const clearCircle = ({circle, setCircle}: ClearCircleProps) => {
-    if(circle) {
-        circle.setMap(null)
-        setCircle(null)
-    }
+export const hideMarkers = (earthquakes: EarthQuake[]) => {
+    earthquakes.forEach(e => {
+        e.marker.map = null
+        e.infoWindow.close()
+    })
 }

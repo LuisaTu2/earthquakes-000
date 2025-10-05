@@ -3,6 +3,7 @@ import { DatePicker as DP}  from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DatePicker.css"
 import { EarthquakesContext } from "../../context/SearchSettingsContext";
+import { MapContext } from "../../context/MapContext";
 
 interface DatePickerProps {
   minDate: Date
@@ -13,6 +14,7 @@ interface DatePickerProps {
 
 const DatePicker: React.FC<DatePickerProps> = ({minDate, maxDate, date, handleDateChange}: DatePickerProps) => {
   const { loading } = useContext(EarthquakesContext)
+  const { isAnimating } = useContext(MapContext)
 
   return (
       <DP
@@ -25,7 +27,7 @@ const DatePicker: React.FC<DatePickerProps> = ({minDate, maxDate, date, handleDa
         minDate={minDate}
         maxDate={maxDate} 
         placeholderText="Select a date"
-        disabled={loading}
+        disabled={loading || isAnimating}
       />
   );
 };
