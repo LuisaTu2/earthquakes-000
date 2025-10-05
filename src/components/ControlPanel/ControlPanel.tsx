@@ -33,6 +33,7 @@ const MapControlPanel: React.FC<any> = ({
         centerMarker, 
         circle, 
         centerMarkerInfo,
+        isAnimating,
         setCircle, 
         setCenterMarker, 
         setCenterMarkerInfo, 
@@ -115,7 +116,7 @@ const MapControlPanel: React.FC<any> = ({
             <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
                 <div className="field"> 
                     <p className="label">center </p> 
-                    <input type="text" placeholder="Enter a city or place" disabled={loading}
+                    <input type="text" placeholder="Enter a city or place" disabled={loading || isAnimating}
                     className={center ? "" : "glowing-input" }/> 
                 </div>
             </Autocomplete>
