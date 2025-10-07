@@ -37,7 +37,6 @@ const MapControlPanel: React.FC<any> = ({
         setCircle, 
         setCenterMarker, 
         setCenterMarkerInfo, 
-        setIsAnimating,
     } = useContext(MapContext)
 
     const activeInfoWindowRef = useRef<google.maps.InfoWindow | null>(null);
@@ -95,7 +94,6 @@ const MapControlPanel: React.FC<any> = ({
         }
 
         if (center === null || startDate === null || endDate === null) {setLoading(false); return}
-        setIsAnimating(false)
         fetchEarthquakes({mapRef, activeInfoWindowRef, epicenter: center, startDate, endDate, searchRadius, setLoading, setEarthquakes})
     }, [center, startDate, endDate, searchRadius])
 

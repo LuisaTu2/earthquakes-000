@@ -66,8 +66,9 @@ const AnimationControl = () => {
 
                 temp = [...earthquakesInTimeUnit]
                 if (t === end) {
-                    setIsAnimating(false)
                     setTimeout(() => {
+                        // at this point it is done animating and we can render all markers again
+                        setIsAnimating(false)
                         showMarkers(earthquakes, mapRef)
                     }, 4000)
                 }
