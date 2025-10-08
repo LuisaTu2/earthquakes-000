@@ -18,12 +18,6 @@ const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
     const onLoad = (map: google.maps.Map) => {
       mapRef.current = map;
       setMapRef(mapRef)
-      // Think this through, because you technically dont set a fixed location in the autocomplete
-      // if (google?.maps?.marker?.AdvancedMarkerElement) {
-      // setEpicenter(initCoords[0])
-      // createLocationMarker({map: mapRef, markerInfo: {coordinates: location, title: "center"}, setLocationMarker, setLocationMarkerInfo})
-        // setLocationMarker(marker)
-      // } 
     };
 
     useEffect(() => {

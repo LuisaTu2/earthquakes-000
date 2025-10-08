@@ -28,7 +28,6 @@ export interface CenterMarker {
     // content?: string
 }
 
-
 export   interface CreateCircleProps {
       mapRef: React.RefObject<google.maps.Map | null> | null
       center: Coordinates
@@ -55,29 +54,11 @@ export interface ClearCenterMarkerProps {
   setCenterMarkerInfo: (value: React.SetStateAction<google.maps.InfoWindow | null | undefined>) => void
 }
 
-// export interface CreateEarthquakesMarkersProps {
-//     activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
-//     mapRef: React.RefObject<google.maps.Map | null> | null
-//     setEarthquakesMarkers: React.Dispatch<React.SetStateAction<google.maps.marker.AdvancedMarkerElement[]>>
-//     setEarthquakesInfos: React.Dispatch<React.SetStateAction<google.maps.InfoWindow[]>>
-//     earthquakes: EarthQuake[]
-// }
-
-export interface ClearEarthquakesMarkersProps {
-    earthquakesMarkers: google.maps.marker.AdvancedMarkerElement[]
-    earthquakesInfos: google.maps.InfoWindow[]
-    setEarthquakesMarkers: React.Dispatch<React.SetStateAction<google.maps.marker.AdvancedMarkerElement[]>>
-    setEarthquakesInfos: React.Dispatch<React.SetStateAction<google.maps.InfoWindow[]>>
-}
-
-
-
 export interface BuildEarthquakesProps {
   data: any, 
   mapRef:  React.RefObject<google.maps.Map | null> | null, 
   activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
 }
-
 
 export interface BuildMarkerInfoProps {
   title: string
@@ -87,6 +68,5 @@ export interface BuildMarkerInfoProps {
   mapRef:  React.RefObject<google.maps.Map | null> | null, 
   activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
 } 
-
 
 export type TimeUnit = "year" | "month" | "day" | ""
