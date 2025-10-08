@@ -108,7 +108,7 @@ export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarth
     const features = data["features"]
     const earthquakes: EarthQuake[] = features.map((feature: any) => { 
 
-        const magnitude = feature["geometry"]["mag"]
+        const magnitude = feature["properties"]["mag"]
         const coordsObj = feature["geometry"]["coordinates"]
         const coordinates = { lat: coordsObj[1], lng: coordsObj[0] }
         const title = feature["properties"]["title"];
@@ -122,15 +122,15 @@ export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarth
 
         const [marker, infoWindow] = buildMarkerAndInfo({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef})
 
-        const earthquake: EarthQuake = {
-            magnitude: feature["properties"]["mag"],
-            title,
-            coordinates,
-            content: "",
-            date,
-            marker,
-            infoWindow
-        }
+            const earthquake: EarthQuake = {
+                magnitude,
+                title,
+                coordinates,
+                content: "",
+                date,
+                marker,
+                infoWindow
+            }
         return earthquake
     })
     
