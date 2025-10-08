@@ -20,6 +20,8 @@
   --color-text: #1F2937;         /* Deep Navy */
   --color-muted: #6B7280;        /* Medium Gray */
   --color-warning: #F87171;
+  /* --color-active-animation: #37ba20; */
+  --color-earthquake-marker: rgba(213, 39, 181, 0.6);
 
   /* Typography & spacing */
   --font-sans: 'Inter', sans-serif;

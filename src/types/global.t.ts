@@ -55,13 +55,13 @@ export interface ClearCenterMarkerProps {
   setCenterMarkerInfo: (value: React.SetStateAction<google.maps.InfoWindow | null | undefined>) => void
 }
 
-export interface CreateEarthquakesMarkersProps {
-    activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
-    mapRef: React.RefObject<google.maps.Map | null> | null
-    setEarthquakesMarkers: React.Dispatch<React.SetStateAction<google.maps.marker.AdvancedMarkerElement[]>>
-    setEarthquakesInfos: React.Dispatch<React.SetStateAction<google.maps.InfoWindow[]>>
-    earthquakes: EarthQuake[]
-}
+// export interface CreateEarthquakesMarkersProps {
+//     activeInfoWindowRef: React.RefObject<google.maps.InfoWindow | null>
+//     mapRef: React.RefObject<google.maps.Map | null> | null
+//     setEarthquakesMarkers: React.Dispatch<React.SetStateAction<google.maps.marker.AdvancedMarkerElement[]>>
+//     setEarthquakesInfos: React.Dispatch<React.SetStateAction<google.maps.InfoWindow[]>>
+//     earthquakes: EarthQuake[]
+// }
 
 export interface ClearEarthquakesMarkersProps {
     earthquakesMarkers: google.maps.marker.AdvancedMarkerElement[]

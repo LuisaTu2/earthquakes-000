@@ -12,8 +12,7 @@ const AnimationControl = () => {
     const { earthquakes,loading, startDate, endDate  } = useContext(EarthquakesContext) 
     const { isAnimating, mapRef, setIsAnimating } = useContext(MapContext)
     const [ currentTime, setCurrentTime ] = useState<number | null>(null)
-    // will most likely end up doing set earthquakes by time unit
-    // const [ currentCount, setCurrentCount ] = useState<number | null>(null) 
+    const [ currentCount, setCurrentCount ] = useState<number | null>(null) 
     const [ startTime, setStartTime ] = useState<number>(0)
     const [ endTime, setEndTime ] = useState<number>(0)
     const [ timeUnitLabel, setTimeUnitLabel] = useState<TimeUnit>("")
@@ -47,6 +46,7 @@ const AnimationControl = () => {
                 setCurrentTime(t)
                 hideMarkers(temp)
                 showMarkers(visibleEarthquakes, mapRef)
+                setCurrentCount(visibleEarthquakes.length)
                 
                 temp = [...visibleEarthquakes]
                 if (t === endTime) {
@@ -107,10 +107,10 @@ const AnimationControl = () => {
             >
                 play time-lapse
             </button>
-            {/* <div>count: {currentCount}</div> */}
             <TimeDots
                 timeUnit={timeUnitLabel}
                 currentTime={currentTime}
+                currentCount={currentCount}
                 startTime={startTime as number}
                 endTime={endTime as number}
                 // TODO: add capability to navigate to one earthquake

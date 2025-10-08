@@ -3,7 +3,8 @@ import "./TimeDots.css";
 import type { TimeUnit } from "../../types/global.t";
 
 type TimeDotsProps = {
-    currentTime: number | null;              
+    currentTime: number | null;   
+    currentCount: number | null;              
     timeUnit: TimeUnit;
     startTime: number;
     endTime: number;
@@ -16,6 +17,7 @@ type TimeDotsProps = {
 export const TimeDots: React.FC<TimeDotsProps> = ({
     timeUnit,
     currentTime,
+    currentCount,
     startTime=0,
     endTime=3
 }) => {
@@ -24,7 +26,7 @@ export const TimeDots: React.FC<TimeDotsProps> = ({
 
     useEffect(() => {
         if(timeUnit === "" || timeUnit === "day") {
-            setLabels(["", "", ""])
+            setLabels([])
         } else if (timeUnit === "month"){
             setLabels(months.slice(startTime, endTime + 1))
         } else if (timeUnit === "year"){
@@ -41,10 +43,14 @@ export const TimeDots: React.FC<TimeDotsProps> = ({
         {
             labels.map((label, i) => 
             {
-                return (<div className="timedot">
+                return (<div className="timedot" key={i}>
                     <span className={currentTime === (startTime + i) ? `dot dot-active` : `dot`}></span>
                     <div className={currentTime === (startTime + i) ? `timedot-label timedot-label-active` : `timedot-label`}> {label} </div>
-                </div>
+                    {
+                        currentTime === (startTime + i) &&
+                        <div className="tiemdot-label timedot-label-active"> &#183; {currentCount} </div>
+                    }
+               </div>
                 )
             })
         }

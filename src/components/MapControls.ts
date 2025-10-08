@@ -18,10 +18,18 @@ export const clearCircle = ({circle, setCircle}: ClearCircleProps) => {
 }
 
 export const createCenterMarker = ({mapRef, center, setCenterMarker, setCenterMarkerInfo}: CreateCenterMarkerProps) => {
+    const pin = new google.maps.marker.PinElement({
+        background: "#22511cff", 
+        borderColor: "#ccc",  
+        glyphColor: "#8ee48dff",  
+    });
+    
+    
     const marker: google.maps.marker.AdvancedMarkerElement = new google.maps.marker.AdvancedMarkerElement({
         map: mapRef?.current,
         position: center,
         title: "center",
+        content: pin.element,
     });
 
     // TODO: fix with center name

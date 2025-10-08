@@ -6,8 +6,8 @@
 
     /* padding: 10px; */
 
-    /* display: flex; */
-    /* flex-direction: column; */
+    display: flex;
+    flex-direction: row;
     /* place-items: center; */
     /* gap: 10px; */
 
@@ -24,7 +24,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   
   /* Pulse animation */
-  animation: animation-control-pulse 1.5s ease-in-out infinite;
+  /* animation: animation-control-pulse 1.5s ease-in-out infinite; */
 }
 @keyframes animation-control-pulse {
   0%, 100% {
@@ -71,7 +71,7 @@
 }
 
 .time-lapse-btn:hover {
-  background-color: rgb(101, 189, 101);
+  background-color: var(--color-primary-hover);
   box-shadow: 0 6px 8px rgba(0,0,0,0.15);
 }
 
@@ -90,8 +90,8 @@
 }
 
 .time-lapse-btn:disabled {
-  background-color: var(--color-muted);
-  color: rgb(213, 203, 203);
+  background-color: rgb(206, 203, 203);
+  color: rgb(144, 135, 135);
   cursor: not-allowed;
 }
 
