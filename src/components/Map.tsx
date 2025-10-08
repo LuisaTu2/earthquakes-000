@@ -52,7 +52,13 @@ const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
                 center={center || undefined}
                 zoom={zoom}  
                 onLoad={onLoad}
-                options={MAP_OPTIONS}
+                options={{...MAP_OPTIONS,                 
+                  zoomControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_TOP
+              },
+              rotateControl: true,
+                  rotateControlOptions: { position: google.maps.ControlPosition.LEFT_TOP },
+            }}
               >
             </GoogleMap>
           }

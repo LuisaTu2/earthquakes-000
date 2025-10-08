@@ -2,58 +2,43 @@ import { useContext, useEffect, useState } from "react"
 import { MapContext } from "../../context/MapContext"
 import { EarthquakesContext } from "../../context/SearchSettingsContext"
 import { clearEarthquakeMarkers, hideMarkers, showMarkers } from "../MapControls"
-import type { TimeLapseProps, EarthQuake, TimeUnit } from "../../types/global.t"
+import type { EarthQuake, TimeUnit } from "../../types/global.t"
 import "./AnimationControl.css"
+import TimeDots from "./TimeDots"
+import { ANIMATION_INTERVAL_TIME_MS } from "../../utils/constants"
 
 
 const AnimationControl = () => {
     const { earthquakes,loading, startDate, endDate  } = useContext(EarthquakesContext) 
     const { isAnimating, mapRef, setIsAnimating } = useContext(MapContext)
-    const [currentTime, setCurrentTime] = useState<number | null>(null)
-    const [timeUnitLabel, setTimeUnitLabel] = useState<TimeUnit>("")
-    const visible = !!earthquakes.length
-    const disabled = !earthquakes.length || loading || isAnimating || !startDate || !endDate
+    const [ currentTime, setCurrentTime ] = useState<number | null>(null)
+    // will most likely end up doing set earthquakes by time unit
+    // const [ currentCount, setCurrentCount ] = useState<number | null>(null) 
+    const [ startTime, setStartTime ] = useState<number>(0)
+    const [ endTime, setEndTime ] = useState<number>(0)
+    const [ timeUnitLabel, setTimeUnitLabel] = useState<TimeUnit>("")
+    // TODO: update for days
+    const disabled = !earthquakes.length || loading || isAnimating || !startDate || !endDate || timeUnitLabel == "day"
 
 
-    const timeLapse = ({ earthquakes, startDate, endDate,  mapRef }: TimeLapseProps) => {
-        let start = null;
-        let end = null;
+    const timeLapse = () => {
+        if (startDate === null || endDate === null) {
+            return 
+        }
+
+        clearEarthquakeMarkers(earthquakes)
+        setIsAnimating(true)
+
         let temp: EarthQuake[] = [];
         let elapsedTime = 0;
-        let timeUnit: TimeUnit = ""
-        
-        const startYear = startDate?.getFullYear();
-        const endYear = endDate?.getFullYear();
-        const startMonth = startDate?.getMonth();
-        const endMonth = endDate?.getMonth();
-        const startDay = startDate?.getDate() as number;
-        const endDay = endDate?.getDate() as number;
-
-        // TODO: improve type here
-        if (endYear !== null && startYear !== null  && (endYear !== startYear)){
-            start = startYear as number
-            end = endYear as number
-            timeUnit = "year"
-        } else if (endMonth !== null  && startMonth !== null && (endMonth !== startMonth)){
-            start = startMonth as number
-            end = endMonth as number
-            timeUnit = "month"
-        } else {
-            start = startDay as number
-            end = endDay as number
-            timeUnit = "day"
-        }
-        setTimeUnitLabel(timeUnit)
-
-        // let time = 0;
-        for(let t = start; t < end + 1; t++){
-            const earthquakesInTimeUnit: EarthQuake[] = earthquakes.filter(e => {
+        for(let t = startTime; t < endTime + 1; t++){
+            const  visibleEarthquakes: EarthQuake[] = earthquakes.filter(e => {
                 const earthquakeDate: Date = new Date(e.date)
-                if (timeUnit === "year") {
+                if (timeUnitLabel === "year") {
                     return earthquakeDate.getFullYear() === t
-                } else if (timeUnit === "month") {
+                } else if (timeUnitLabel === "month") {
                     return earthquakeDate.getMonth() === t
-                } else if (timeUnit === "day") {
+                } else if (timeUnitLabel === "day") {
                     return earthquakeDate.getDay() === t
                 } 
             })
@@ -61,57 +46,77 @@ const AnimationControl = () => {
             setTimeout(() => {
                 setCurrentTime(t)
                 hideMarkers(temp)
-                showMarkers(earthquakesInTimeUnit, mapRef)
-                // console.log(t, "2    temp: ", temp, "eqinyear: ", earthquakesInTimeUnit)
-
-                temp = [...earthquakesInTimeUnit]
-                if (t === end) {
+                showMarkers(visibleEarthquakes, mapRef)
+                
+                temp = [...visibleEarthquakes]
+                if (t === endTime) {
                     setTimeout(() => {
-                        // at this point it is done animating and we can render all markers again
                         setIsAnimating(false)
                         showMarkers(earthquakes, mapRef)
-                    }, 4000)
+                        setCurrentTime(null)
+                    }, ANIMATION_INTERVAL_TIME_MS)
                 }
-            }, elapsedTime * 4000)
+            }, elapsedTime * ANIMATION_INTERVAL_TIME_MS)
             elapsedTime++
         }
     }
 
 
     useEffect(() => {
-        if (isAnimating && earthquakes.length) {
-            clearEarthquakeMarkers(earthquakes)
-            timeLapse({ earthquakes, startDate, endDate, mapRef })
+        if (startDate === null || endDate === null) {
             return
         }
-        if(!isAnimating){
-            setCurrentTime(null)
-            setTimeUnitLabel("")
-        }
-    }, [isAnimating])
 
-    return <>
-        {
-            visible &&
-                <>
-                    <div className="animation-control">
-                        <button 
-                            className="time-lapse-btn"
-                            disabled={ disabled } 
-                            onClick={() => setIsAnimating(true)}
-                        >
-                            play time-lapse
-                        </button>
-                        {
-                            isAnimating && <div className="time-label">
-                                { `${timeUnitLabel} ${ currentTime }`}
-                            </div>
-                        }
-                    </div>
-
-            </>
+        const startYear = startDate.getFullYear();
+        const endYear = endDate.getFullYear();
+        if ( endYear > startYear){
+            setTimeUnitLabel("year")
+            setStartTime(startYear)
+            setEndTime(endYear)
+            return 
         }
-        </>
-}
+
+        const startMonth = startDate.getMonth();
+        const endMonth = endDate.getMonth();
+        if (endMonth > startMonth){
+            setTimeUnitLabel("month")
+            setStartTime(startMonth)
+            setEndTime(endMonth)
+            return 
+        }
+        const startDay = startDate?.getDate() as number;
+        const endDay = endDate?.getDate() as number;
+        if (endDay > startDay){
+            setTimeUnitLabel("day")
+            // TODO: decide what to do with days
+            return 
+        } else {
+            // no day display
+            return
+        }
+
+    }, [startDate, endDate])
+
+
+    return (
+        <div className={`animation-control ${isAnimating ? "container animation-control animation-control-active" : "container animation-control"}`}>  
+            <button 
+                className="time-lapse-btn"
+                disabled={ disabled } 
+                onClick={() => timeLapse()}
+            >
+                play time-lapse
+            </button>
+            {/* <div>count: {currentCount}</div> */}
+            <TimeDots
+                timeUnit={timeUnitLabel}
+                currentTime={currentTime}
+                startTime={startTime as number}
+                endTime={endTime as number}
+                // TODO: add capability to navigate to one earthquake
+                // onClick={() => console.log("clicked me you did")} 
+            />
+        </div>
+    )}
 
 export default AnimationControl

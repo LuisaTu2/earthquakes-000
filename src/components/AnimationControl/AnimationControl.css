@@ -1,42 +1,50 @@
 .animation-control {
-    width: 220px;
-    height: 40px;
-    position: absolute;
-    top: 30.5rem;
-    margin-left: 10px;
-    padding: 5px;
+    /* width: 310px; */
+    /* height: 100px; */
+    /* position: relative; */
+    /* top: -1.42rem; */
 
-    display: flex;
-    flex-direction: row;
+    /* padding: 10px; */
+
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* place-items: center; */
+    /* gap: 10px; */
+
     place-items: center;
-    gap: 10px;
+    align-items: center;
 
-    border-radius: 5%;
-    background: linear-gradient(
-        to bottom right, 
-        rgba(139, 168, 208, 0.6),  /* top-left lighter */
-        rgba(96, 125, 168, 0.85)  /* bottom-right darker */
-    );
-    border-radius: 5%;
-    z-index: 10;  
+    /* border-bottom-left-radius: 10px; */
+    /* border-bottom-right-radius: 10px; */
+    /* z-index: 1;   */
+
 }
 
-.animation-control-title{
-    /* position: absolute; */
-    color: red;
-    text-align: center;
-    /* top: 497px; */
-    /* z-index: 3; */
+.animation-control-active {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  
+  /* Pulse animation */
+  animation: animation-control-pulse 1.5s ease-in-out infinite;
 }
-.animation-control-items{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+@keyframes animation-control-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  50% {
+    transform: scale(1.01); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
 }
 
-.animation-control > div {
-    color: white;
+
+.animation-control-handler {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  place-items: center;
 }
+
 
 .time-lapse-btn {
     /* display: inline-flex; */
@@ -46,12 +54,14 @@
     /* margin: 8px 10px; */
     /* padding: 0.6rem 1.2rem; */
     /* font-size: 1rem; */
-    height: 30px;
+    /* width: 200px; */
+    /* height: 30px; */
+    padding: 10px 15px;
     font-weight: 600;
     /* background-color: rgb(239, 220, 210); */
     /* color: var(--color-primary); */
-    background-color: rgb(231, 104, 36);
-    color: rgb(247, 232, 227);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
     border: none;
     border-radius: 0.5rem; /* soft rounded corners */
     cursor: pointer;
@@ -61,8 +71,7 @@
 }
 
 .time-lapse-btn:hover {
-  background-color: var(--color-primary-hover);
-  color: rgb(231, 224, 224);
+  background-color: rgb(101, 189, 101);
   box-shadow: 0 6px 8px rgba(0,0,0,0.15);
 }
 
@@ -90,10 +99,3 @@
   opacity: 0.1;
 }
 
-.animation-control .time-label {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #F3F4F6; /* light gray text to contrast dark overlay */
-  min-width: 80px; /* prevent jumping when numbers change width */
-  text-align: center;
-}

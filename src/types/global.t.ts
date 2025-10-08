@@ -70,12 +70,6 @@ export interface ClearEarthquakesMarkersProps {
     setEarthquakesInfos: React.Dispatch<React.SetStateAction<google.maps.InfoWindow[]>>
 }
 
-export interface TimeLapseProps {
-  earthquakes: EarthQuake[]
-  startDate: Date | null
-  endDate: Date | null
-  mapRef: React.RefObject<google.maps.Map | null> | null
-}
 
 
 export interface BuildEarthquakesProps {

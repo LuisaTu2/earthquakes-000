@@ -13,7 +13,7 @@
     /* z-index: 1000; */
      /* must be higher than the map */
     backdrop-filter: blur(12px);
-     opacity: 1;
+    opacity: 1;
     transform: scale(1);
     transition: opacity 1s ease, transform 1s ease;
 }

@@ -49,8 +49,9 @@ const App = () => {
                     🌎 loading map...
                   </div>
                   }>
-                  <AnimationControl />
+                 
                   <EarthquakeMap />
+                  <AnimationControl />
                   <ScrollAfterDelay />
                   <ControlPanel />
                   <EarthquakesSummary />
