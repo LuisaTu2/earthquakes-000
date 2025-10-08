@@ -17,7 +17,7 @@ export interface EarthQuake {
     coordinates: Coordinates
     magnitude: number
     date: string
-    content: string // can remove and leave in marker
+    content: string
     marker: google.maps.marker.AdvancedMarkerElement
     infoWindow: google.maps.InfoWindow
 }
@@ -25,22 +25,21 @@ export interface EarthQuake {
 export interface CenterMarker {
     title: string
     coordinates: Coordinates
-    // content?: string
 }
 
-export   interface CreateCircleProps {
-      mapRef: React.RefObject<google.maps.Map | null> | null
-      center: Coordinates
-      searchRadius: number
-      setCircle: React.Dispatch<React.SetStateAction<google.maps.Circle | null | undefined>>
-  }
+export interface CreateCircleProps {
+    mapRef: React.RefObject<google.maps.Map | null> | null
+    center: Coordinates
+    searchRadius: number
+    setCircle: React.Dispatch<React.SetStateAction<google.maps.Circle | null | undefined>>
+}
 
-export     interface CreateCenterMarkerProps {
-        mapRef: React.RefObject<google.maps.Map | null> | null
-        center: Coordinates
-        setCenterMarker: (value: React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null | undefined>) => void
-        setCenterMarkerInfo: (value: React.SetStateAction<google.maps.InfoWindow | null | undefined>) => void
-    }
+export interface CreateCenterMarkerProps {
+    mapRef: React.RefObject<google.maps.Map | null> | null
+    center: Coordinates
+    setCenterMarker: (value: React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null | undefined>) => void
+    setCenterMarkerInfo: (value: React.SetStateAction<google.maps.InfoWindow | null | undefined>) => void
+}
 
 export interface ClearCircleProps {
     circle: google.maps.Circle | null | undefined

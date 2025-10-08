@@ -5,10 +5,11 @@ import "./Map.css"
 import { GoogleMap } from "@react-google-maps/api";
 import { MAP_CONTAINER_STYLE, MAP_OPTIONS, MAX_RADIUS } from "../utils/constants";
 import { MapContext } from "../context/MapContext";
+import Legend from "./ControlPanel/Legend";
 
 
 const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
-    const { epicenter: center, searchRadius } = useContext(EarthquakesContext) 
+    const { epicenter: center, searchRadius, earthquakes, loading } = useContext(EarthquakesContext) 
     const {  setMapRef } = useContext(MapContext)
     const [zoom, setZoom] = useState<number>(5)
 
@@ -55,7 +56,11 @@ const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
             }}
               >
             </GoogleMap>
+
+            
           }
+          { earthquakes.length > 0 && !loading && <Legend /> }
+
       </div>)
     };
 

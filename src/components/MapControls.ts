@@ -69,9 +69,15 @@ export const clearEarthquakeMarkers = (earthquakes: EarthQuake[]) => {
     return;
 }
 
-export const buildMarkerAndInfo = ({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef}: BuildMarkerInfoProps) : [google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
+export const createMarkerAndInfo = ({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef}: BuildMarkerInfoProps) : [google.maps.marker.AdvancedMarkerElement, google.maps.InfoWindow] => {
     const earthquakeMarkerContent = document.createElement("div");
-    earthquakeMarkerContent.className = "earthquake-marker";
+    if (magnitude <= 5) {
+        earthquakeMarkerContent.className = "earthquake-marker mag-low"
+    } else if (5 < magnitude && magnitude <= 8) {
+        earthquakeMarkerContent.className = "earthquake-marker mag-medium"
+    } else if (8 < magnitude && magnitude <= 10) {
+        earthquakeMarkerContent.className = "earthquake-marker mag-high"
+    }
     const marker = new google.maps.marker.AdvancedMarkerElement({
             map: mapRef?.current,
             position: coordinates,
@@ -120,7 +126,7 @@ export const buildEarthquakes = ({data, mapRef, activeInfoWindowRef}: BuildEarth
             year: "numeric"
         });
 
-        const [marker, infoWindow] = buildMarkerAndInfo({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef})
+        const [marker, infoWindow] = createMarkerAndInfo({coordinates, title, date, magnitude, mapRef, activeInfoWindowRef})
 
             const earthquake: EarthQuake = {
                 magnitude,

@@ -53,12 +53,11 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: var(--color-earthquake-marker); 
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   animation: pulse 1.5s infinite;
+  opacity: 0.7;
 }
 
 @keyframes pulse {
@@ -80,3 +79,14 @@
 }
 
 
+.mag-low {
+  background-color: #166534; 
+}
+
+.mag-medium {
+  background-color: #ec652c;
+}
+
+.mag-high {
+  background-color: #ef089e;
+}

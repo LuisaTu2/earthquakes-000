@@ -17,11 +17,11 @@
   height: 8px;
   width: 8px;
   border-radius: 50%;
-  background-color: var(--color-primary);
+  background-color: rgba(178, 184, 179, 0.85);
 }
 
 .dot-active {
-  background-color: var(--color-earthquake-marker);
+  background-color: var(--color-primary);
   animation: pulse 2s infinite;
 }
 
@@ -67,13 +67,13 @@
 
 
 .timedot-label {
-  color: var(--color-primary);
+  color: rgba(178, 184, 179, 0.85);
   font-size: 1rem;
   /* transform: rotate(-45deg) translateX(-20px) translateY(-5px);   */
 }
 
 .timedot-label-active {
-  color: var(--color-earthquake-marker);
+  color: var(--color-primary);
   animation: pulse-label 2s infinite;
 }
 

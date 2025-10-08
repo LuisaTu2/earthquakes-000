@@ -51,4 +51,11 @@ body {
   padding: 0;
 }
 
+title > span {
+  height: 2px;
+  width: 2px;
+  background-color: #3B82F6;
+  border-radius: 50%;
+}
+
 
