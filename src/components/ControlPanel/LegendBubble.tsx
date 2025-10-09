@@ -2,20 +2,13 @@ import { useEffect, useState } from "react";
 import Legend from "./Legend";
 
 export default function LegendBubble() {
-  const [show, setShow] = useState(false); 
-  const [collapsed, setCollapsed] = useState(true); 
+  const [collapsed, setCollapsed] = useState(false); 
+
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(true), 2000); 
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (show) {
-      const collapseTimer = setTimeout(() => setCollapsed(true), 2000);
+    const collapseTimer = setTimeout(() => setCollapsed(true), 3000);
       return () => clearTimeout(collapseTimer);
-    }
-  }, [show]);
+  }, []);
 
   const handleClick = () => {
     setCollapsed(!collapsed); 
@@ -27,9 +20,9 @@ export default function LegendBubble() {
       className="legend-bubble"
       style={{
         position: "fixed",
-        // left: collapsed ? "20px" : "20px",
-        right: "15px",
-        bottom: "75px",
+        left: collapsed ? "15px" : "10px",
+        // right: "15px",
+        bottom: "33px",
         width: collapsed ? "34px" : "120px",
         height: collapsed ? "30px" : "110px",
         borderRadius:  collapsed ? "50%" : "12px",

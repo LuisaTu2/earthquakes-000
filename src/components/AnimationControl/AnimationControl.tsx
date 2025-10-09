@@ -196,7 +196,7 @@ const AnimationControl = () => {
                 />
             }
 
-            {isAnimating && currentTime === null && 
+            {isAnimating && currentTime === null && currentIntensity && 
                 <MagnitudeAnimation
                     intensity={currentIntensity}
                     count={currentCount}
