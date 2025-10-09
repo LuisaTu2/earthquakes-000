@@ -3,7 +3,7 @@ import Legend from "./Legend";
 
 export default function LegendBubble() {
   const [show, setShow] = useState(false); 
-  const [collapsed, setCollapsed] = useState(false); 
+  const [collapsed, setCollapsed] = useState(true); 
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 2000); 
