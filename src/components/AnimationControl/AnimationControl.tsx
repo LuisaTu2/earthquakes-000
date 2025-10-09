@@ -2,11 +2,12 @@ import { useContext, useEffect, useState } from "react"
 import { MapContext } from "../../context/MapContext"
 import { EarthquakesContext } from "../../context/SearchSettingsContext"
 import { clearEarthquakeMarkers, hideMarkers, showMarkers } from "../MapControls"
-import type { EarthQuake, TimeUnit } from "../../types/global.t"
+import type { EarthQuake, MagnitudeIntensity, TimeUnit } from "../../types/global.t"
 import "./AnimationControl.css"
 import { ANIMATION_INTERVAL_TIME_MS } from "../../utils/constants"
 import TimeAnimation from "./TimeAnimation"
 import EarthquakesSummary from "../Summary/EarthquakesSummary"
+import MagnitudeAnimation from "./MagnitudeAnimation"
 
 
 const AnimationControl = () => {
@@ -14,6 +15,7 @@ const AnimationControl = () => {
     const { isAnimating, mapRef, setIsAnimating } = useContext(MapContext)
     const [ currentTime, setCurrentTime ] = useState<number | null>(null)
     const [ currentCount, setCurrentCount ] = useState<number | null>(null) 
+    const [ currentIntensity, setCurrentIntensity ] = useState<MagnitudeIntensity>("") 
     const [ startTime, setStartTime ] = useState<number>(0)
     const [ endTime, setEndTime ] = useState<number>(0)
     const [ timeUnitLabel, setTimeUnitLabel] = useState<TimeUnit>("")
@@ -56,6 +58,7 @@ const AnimationControl = () => {
                         setIsAnimating(false)
                         showMarkers(earthquakes, mapRef)
                         setCurrentTime(null)
+                        setCurrentCount(0)
                     }, ANIMATION_INTERVAL_TIME_MS)
                 }
             }, elapsedTime * ANIMATION_INTERVAL_TIME_MS)
@@ -63,6 +66,40 @@ const AnimationControl = () => {
         }
     }
 
+
+    const filterByMagnitude = () => {
+        let prev: EarthQuake[] = []
+        setIsAnimating(true);
+        clearEarthquakeMarkers(earthquakes)
+
+        for(let t = 0; t < 3; t++){
+
+            const visibleEarthquakes: EarthQuake[] = earthquakes.filter(e => {
+                if(t === 0) {
+                    return e.magnitude <= 5
+                } else if (t === 1) {
+                    return 5 < e.magnitude && e.magnitude <= 8
+                } else {
+                }
+            })
+            setTimeout(() => {
+                hideMarkers(prev)
+                showMarkers(visibleEarthquakes, mapRef)
+                setCurrentCount(visibleEarthquakes.length)
+                setCurrentIntensity(t === 0 ? "low" : t === 1 ? "medium" : "high")
+
+                prev = [...visibleEarthquakes]
+                if (t === 2) {
+                    setTimeout(() => {
+                        setIsAnimating(false)
+                        showMarkers(earthquakes, mapRef)
+                        setCurrentCount(0)
+                        setCurrentIntensity("")
+                    }, ANIMATION_INTERVAL_TIME_MS)
+                }
+            }, t * ANIMATION_INTERVAL_TIME_MS)
+        }
+    }
 
     useEffect(() => {
         if (startDate === null || endDate === null) {
@@ -132,37 +169,37 @@ const AnimationControl = () => {
                 <button 
                     className="timelapse-btn"
                     disabled={ disabled } 
+                    onClick={() => filterByMagnitude()}
+                >
+                    <div className="timelapse-btn-text">
+                        magnitude
+                    </div>
+                </button>
+                <button 
+                    className="timelapse-btn"
+                    disabled={ disabled } 
                     onClick={() => setShowStats(!showStats)}
                 >
                     <div className="timelapse-btn-text">
                         stats
                     </div>
                 </button>
-                <button 
-                    className="timelapse-btn"
-                    disabled={ true } 
-                >
-                    <div className="timelapse-btn-text">
-                        magnitude
-                    </div>
-                </button>
             </div>
 
-            {/* <TimeDots
-                timeUnit={timeUnitLabel}
-                currentTime={currentTime}
-                currentCount={currentCount}
-                startTime={startTime as number}
-                endTime={endTime as number}
-            /> */}
-
-            {isAnimating && 
+            {isAnimating &&  currentTime && 
                 <TimeAnimation
                     timeUnit={timeUnitLabel}
                     currentTime={currentTime}
                     currentCount={currentCount}
                     startTime={startTime as number}
                     endTime={endTime as number}
+                />
+            }
+
+            {isAnimating && currentTime === null && 
+                <MagnitudeAnimation
+                    intensity={currentIntensity}
+                    count={currentCount}
                 />
             }
 

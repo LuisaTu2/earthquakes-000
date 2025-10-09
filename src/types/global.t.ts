@@ -69,3 +69,5 @@ export interface BuildMarkerInfoProps {
 } 
 
 export type TimeUnit = "year" | "month" | "day" | ""
+
+export type MagnitudeIntensity = "low" | "medium" | "high" | "";
