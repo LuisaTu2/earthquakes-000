@@ -19,7 +19,7 @@ const AnimationControl = () => {
     const [ timeUnitLabel, setTimeUnitLabel] = useState<TimeUnit>("")
     const [ showStats, setShowStats ] = useState<boolean>(false);
     // TODO: update for days
-    const disabled = !earthquakes.length || loading || isAnimating || !startDate || !endDate || timeUnitLabel == "day"
+    const disabled = !earthquakes.length || loading || isAnimating || !startDate || !endDate 
 
 
     const timeLapse = () => {
@@ -116,7 +116,7 @@ const AnimationControl = () => {
                 <button         
                     // className="time-lapse-btn"
                     className="timelapse-btn"
-                    disabled={ disabled } 
+                    disabled={ disabled || timeUnitLabel == "day" } 
                     onClick={() => timeLapse()}
                 >
                     <div  className="timelapse-btn-text">
