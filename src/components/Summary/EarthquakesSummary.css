@@ -11,7 +11,7 @@
   position: relative;
   top: -17.2rem;
   left: -1.8rem;
-  animation: fadeIn 0.2s ease-in forwards;
+  animation: fadeIn 0.1s ease-in forwards;
   z-index: 10;
 }
 @keyframes fadeIn {

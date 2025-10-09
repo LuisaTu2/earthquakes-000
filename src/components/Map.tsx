@@ -5,7 +5,7 @@ import "./Map.css"
 import { GoogleMap } from "@react-google-maps/api";
 import { MAP_CONTAINER_STYLE, MAP_OPTIONS, MAX_RADIUS } from "../utils/constants";
 import { MapContext } from "../context/MapContext";
-import Legend from "./ControlPanel/Legend";
+import LegendBubble from "./ControlPanel/LegendBubble";
 
 
 const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
@@ -59,8 +59,7 @@ const EarthquakesMap: React.FC<EarthquakeMapProps> = ({}) => {
 
             
           }
-          { earthquakes.length > 0 && !loading && <Legend /> }
-
+          { earthquakes.length > 0 && !loading && <LegendBubble /> }
       </div>)
     };
 
