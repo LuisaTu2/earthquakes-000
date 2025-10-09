@@ -41,7 +41,7 @@ export const TimeAnimation: React.FC<TimeDotsProps> = ({
     return (
         <div className={`timelapse-popup-container`}>
             {/* <span className="timelapse-text"> */}
-                total count in {timeUnit === "month" ? months[currentTime as number] : currentTime}: {currentCount}
+                quakes in {timeUnit === "month" ? months[currentTime as number] : currentTime}: {currentCount}
             {/* </span> */}
         </div>
     )};

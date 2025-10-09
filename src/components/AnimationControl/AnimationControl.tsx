@@ -106,13 +106,6 @@ const AnimationControl = () => {
         }
     }, [isAnimating])
 
-    useEffect(() => {
-        if (showStats) {
-            setTimeout(() => {
-                setShowStats(false)
-            }, 5000)
-        }
-    }, [showStats])
 
     // ${isAnimating ? "container animation-control animation-control-active" : "container animation-control"}
     return (
