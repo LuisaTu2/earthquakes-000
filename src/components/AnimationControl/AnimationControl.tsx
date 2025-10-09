@@ -4,8 +4,9 @@ import { EarthquakesContext } from "../../context/SearchSettingsContext"
 import { clearEarthquakeMarkers, hideMarkers, showMarkers } from "../MapControls"
 import type { EarthQuake, TimeUnit } from "../../types/global.t"
 import "./AnimationControl.css"
-import TimeDots from "./TimeDots"
 import { ANIMATION_INTERVAL_TIME_MS } from "../../utils/constants"
+import TimeAnimation from "./TimeAnimation"
+import EarthquakesSummary from "../Summary/EarthquakesSummary"
 
 
 const AnimationControl = () => {
@@ -16,6 +17,7 @@ const AnimationControl = () => {
     const [ startTime, setStartTime ] = useState<number>(0)
     const [ endTime, setEndTime ] = useState<number>(0)
     const [ timeUnitLabel, setTimeUnitLabel] = useState<TimeUnit>("")
+    const [ showStats, setShowStats ] = useState<boolean>(false);
     // TODO: update for days
     const disabled = !earthquakes.length || loading || isAnimating || !startDate || !endDate || timeUnitLabel == "day"
 
@@ -98,24 +100,74 @@ const AnimationControl = () => {
     }, [startDate, endDate])
 
 
+    useEffect(() => {
+        if(isAnimating){
+            setShowStats(false)
+        }
+    }, [isAnimating])
+
+    // ${isAnimating ? "container animation-control animation-control-active" : "container animation-control"}
     return (
-        <div className={`animation-control ${isAnimating ? "container animation-control animation-control-active" : "container animation-control"}`}>  
-            <button 
-                className="time-lapse-btn"
-                disabled={ disabled } 
-                onClick={() => timeLapse()}
-            >
-                play time-lapse
-            </button>
-            <TimeDots
+        <div className={`container animation-control 
+                `}
+            >  
+            <div className="container-title">animation panel</div>
+            <div className="animation-control-buttons"> 
+                <button         
+                    // className="time-lapse-btn"
+                    className="timelapse-btn"
+                    disabled={ disabled } 
+                    onClick={() => timeLapse()}
+                >
+                    <div  className="timelapse-btn-text">
+                        time-lapse
+                    </div>
+                    {/* <div  className="timelapse-btn-emoji">
+                        ⏳
+                    </div> */}
+                    {/* <span className="tooltip-text">view earthquakes over time</span> */}
+                    {/* play button */}
+                </button>
+                <button 
+                    className="timelapse-btn"
+                    disabled={ disabled } 
+                    onClick={() => setShowStats(!showStats)}
+                >
+                    <div className="timelapse-btn-text">
+                        stats
+                    </div>
+                </button>
+                <button 
+                    className="timelapse-btn"
+                    disabled={ true } 
+                >
+                    <div className="timelapse-btn-text">
+                        magnitude
+                    </div>
+                </button>
+            </div>
+
+            {/* <TimeDots
                 timeUnit={timeUnitLabel}
                 currentTime={currentTime}
                 currentCount={currentCount}
                 startTime={startTime as number}
                 endTime={endTime as number}
-                // TODO: add capability to navigate to one earthquake
-                // onClick={() => console.log("clicked me you did")} 
-            />
+            /> */}
+
+            {isAnimating && 
+                <TimeAnimation
+                    timeUnit={timeUnitLabel}
+                    currentTime={currentTime}
+                    currentCount={currentCount}
+                    startTime={startTime as number}
+                    endTime={endTime as number}
+                />
+            }
+
+            {
+                showStats && <EarthquakesSummary />
+            }
         </div>
     )}
 

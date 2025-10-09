@@ -5,7 +5,6 @@ import { type Coordinates, type EarthQuake } from './types/global.t';
 import ControlPanel from './components/ControlPanel/ControlPanel';
 import EarthquakeMap from './components/Map';
 import { LoadScript } from '@react-google-maps/api';
-import EarthquakesSummary from './components/Summary/EarthquakesSummary';
 import { MapContext } from './context/MapContext';
 import ScrollAfterDelay from './components/Auxiliary/ScrollAfterDelay';
 import CreditBubble from './components/Auxiliary/CreditBubble';
@@ -53,7 +52,6 @@ const App = () => {
                   <AnimationControl />
                   <ScrollAfterDelay />
                   <ControlPanel />
-                  <EarthquakesSummary />
               <CreditBubble />
           </LoadScript>
         </div>

@@ -1,0 +1,33 @@
+.timelapse-popup-container {
+    width: 180px;
+    padding: 10px 0px 10px 20px;
+
+    position: relative;
+    top: -527px;
+    left: 100px;
+    /* transform: translate(50%, 50%); */
+
+    background-color: rgb(227, 236, 213);
+    text-align: left;
+    align-items: center;
+    place-items: center;
+
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    color: var(--color-primary);
+    font-weight: 600;
+    z-index: 4;
+    animation: timelapse-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes timelapse-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    /* opacity: 1; */
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    /* opacity: 0.9; */
+  }
+}
+

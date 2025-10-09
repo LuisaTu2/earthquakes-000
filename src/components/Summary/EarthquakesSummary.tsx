@@ -1,13 +1,13 @@
 import { EarthquakesContext } from "../../context/SearchSettingsContext";
 import "./EarthquakesSummary.css"
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 
-const EarthquakesSummary: React.FC = () => {
+const EarthquakesSummary = () => {
   const {earthquakes, loading} = useContext(EarthquakesContext) 
 
   return (
-    <div className="container">
+    <div className={"container stats-container"}>
       <div className="container-title">stats</div>
       <div className="summary-item">
         <span className="label summary-label">total quakes</span>

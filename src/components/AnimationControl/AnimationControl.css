@@ -1,24 +1,22 @@
 .animation-control {
     /* width: 310px; */
-    /* height: 100px; */
+    height: 80px;
     /* position: relative; */
     /* top: -1.42rem; */
 
     /* padding: 10px; */
 
     display: flex;
-    flex-direction: row;
-    /* place-items: center; */
+    flex-direction: column;
     /* gap: 10px; */
 
-    place-items: center;
-    align-items: center;
-
+    /* justify-content: center; */
     /* border-bottom-left-radius: 10px; */
     /* border-bottom-right-radius: 10px; */
     /* z-index: 1;   */
 
 }
+
 
 .animation-control-active {
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -37,6 +35,14 @@
   }
 }
 
+
+
+.animation-control-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
 
 .animation-control-handler {
   display: flex;
@@ -86,7 +92,7 @@
 }
 
 .time-lapse-btn .emoji {
-  font-size: 1.2rem; /* slightly larger than text for emphasis */
+  font-size: 1.2rem; 
 }
 
 .time-lapse-btn:disabled {
@@ -98,4 +104,97 @@
 .time-lapse-btn .emoji:disabled {
   opacity: 0.1;
 }
+
+
+
+.timelapse-btn {
+    width: 90px;
+    /* height: 50px; */
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: column;
+    /* gap: 15px; */
+
+    /* align-items: center; */
+    text-align: center;
+    /* place-items: center; */
+    font-size: 1rem;
+    background: linear-gradient(
+      to bottom right, rgb(124, 138, 214), rgb(35, 54, 201)
+    );
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    /* position: relative; */
+    /* display: inline-block; */
+    /* cursor: pointer; */
+}
+
+.timelapse-btn:hover {
+    /* background-color: var(--color-primary-hover); */
+    background: linear-gradient(
+      145deg, rgb(155, 162, 207), rgb(91, 103, 199)
+    );
+    /* transform: scale(1.05); */
+}
+
+.timelapse-btn:disabled {
+  background: linear-gradient(
+    145deg, rgb(152, 152, 159), rgb(100, 102, 117)
+  );
+  color: rgb(232, 221, 221);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+
+
+
+
+
+
+
+.tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  max-width: 100px;
+  background-color: rgba(132, 158, 127, 0.95);
+  color: #fff;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  position: absolute;
+  bottom: 125%; /* above the element */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* arrow points downward */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0,0,0,0.85) transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.timelapse-btn:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px); /* slight upward motion */
+}
+
 
